@@ -33,22 +33,27 @@ class AuditDetails extends Component {
         return (
 			<div>
 				<center>
-				<div className="brandname">
-					<hr/>
-					User: {this.state.item.name} <br/>
-					{this.state.item.date} <br/>
-					IP: {this.state.ip} <br/>
-					Description: {this.state.item.description} <br/>
-					ID: {this.state.item.id} <br/>
-					<hr/>
- 				</div>
-				
-				<div onClick={this.goPhones.bind(this)}>
+					<div className="header">
+						{this.state.item.date}
+					</div>
 					<br/>
-					<button className="button">
-						Back
-					</button>
-				</div>		
+					<br/>
+					<div className="brandname">
+						<hr/>
+						User: {this.state.item.name} <br/>
+						{this.state.item.date} <br/>
+						IP: {this.state.ip} <br/>
+						Description: {this.state.item.description} <br/>
+						ID: {this.state.item.id} <br/>
+						<hr/>
+					</div>
+					
+					<div onClick={this.goPhones.bind(this)}>
+						<br/>
+						<button className="button">
+							Back
+						</button>
+					</div>		
 				</center>				
 			</div>
         );
