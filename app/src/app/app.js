@@ -13,7 +13,7 @@ class App extends Component {
 		
 		window.appConfig = {
             access_token: '',
-			url: 'http://jwt-base.herokuapp.com/',
+			url: 'http://jwt-budget.herokuapp.com/',
 			onLogOut: this.onLogOut.bind(this),
 			search: {
                 refresh: true,
@@ -34,9 +34,6 @@ class App extends Component {
 				refresh: true,
 				items: [],
 				item: {}
-            },			
-			socket: {
-                name: ''
             }
         };
     }

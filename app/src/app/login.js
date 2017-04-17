@@ -47,9 +47,7 @@ class Login extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
                 if (responseData.token) {
-					appConfig.access_token = responseData.token;
-					appConfig.socket.name = this.state.name; //TODO username
-					
+					appConfig.access_token = responseData.token;					
                     this.setState({
                         badCredentials: false
                     });
