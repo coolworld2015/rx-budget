@@ -11,11 +11,16 @@ import UserAdd from '../users/userAdd';
 import UserDetails from '../users/userDetails';
 import UserDelete from '../users/userDelete';
 
+import Projects from '../projects/projects';
+
 export default (
     <Route path="/" component={Root}>
 	
         <IndexRoute component={Main}/>
 		<Route path="main" component={Main}/>
+		
+		<Route path="audit" component={Audit}/>
+		<Route path="audit-details" component={AuditDetails}/>
 		
 		<Route path="users" component={Users}/>
 		<Route path="user-details" component={UserDetails}/>
@@ -24,7 +29,7 @@ export default (
             <Route path=":id/:name" component={UserDelete}/>
         </Route>
 		
-		<Route path="audit" component={Audit}/>
-		<Route path="audit-details" component={AuditDetails}/>
+		<Route path="projects" component={Projects}/>
+		<Route path="project-details" component={AuditDetails}/>
     </Route>
 );

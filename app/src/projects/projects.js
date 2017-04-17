@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import ListItem from './listItem';
-import Title from '../app/title';
 
-class Users extends Component {
+class Projects extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             showProgress: false,
-            items: appConfig.users.items.slice(0, 20),
-			filteredItems: appConfig.users.items,
+            items: appConfig.projects.items.slice(0, 20),
+			filteredItems: appConfig.projects.items,
 			resultsCount: 0,
             recordsCount: 20,
             positionY: 0
@@ -19,11 +18,11 @@ class Users extends Component {
 	
 	componentDidMount() {
 		this.setState({
-            resultsCount: appConfig.users.items.length
+            resultsCount: appConfig.projects.items.length
         });
 		
-		if (appConfig.users.refresh) {
-            appConfig.users.refresh = false;
+		if (appConfig.projects.refresh) {
+            appConfig.projects.refresh = false;
 			this.getItems();
 		}
 	}
@@ -48,7 +47,7 @@ class Users extends Component {
 	
     onChangeText(e) {
 		var text = e.target.value;
-        var arr = [].concat(appConfig.users.items);
+        var arr = [].concat(appConfig.projects.items);
         var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) != -1);
         this.setState({
             items: items,
@@ -61,9 +60,9 @@ class Users extends Component {
 	clearSearchQuery() {
 		this.refs.search.value = '';
 		this.setState({
-			items: appConfig.users.items.slice(0, 20),
-            resultsCount: appConfig.users.items.length,
-            filteredItems: appConfig.users.items,
+			items: appConfig.projects.items.slice(0, 20),
+            resultsCount: appConfig.projects.items.length,
+            filteredItems: appConfig.projects.items,
 			positionY: 0,
 			recordsCount: 20
 		});
@@ -74,7 +73,7 @@ class Users extends Component {
             showProgress: true
         });
 		
-        fetch(appConfig.url + 'api/users/get', {			
+        fetch(appConfig.url + 'api/projects/get', {			
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -84,11 +83,11 @@ class Users extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				appConfig.users.items = responseData.sort(this.sort);
+				appConfig.projects.items = responseData.sort(this.sort);
                 this.setState({
                     items: (responseData.sort(this.sort)).slice(0, 20),
                     filteredItems: responseData.sort(this.sort),
-                    resultsCount: appConfig.users.items.length,
+                    resultsCount: appConfig.projects.items.length,
 					showProgress: false
                 });
             })
@@ -123,7 +122,7 @@ class Users extends Component {
     }
 
     clickHandle(item) {
-		appConfig.users.item = {
+		appConfig.projects.item = {
 			id: item.id,
 			name: item.name,
 			pass: item.pass,
@@ -159,7 +158,7 @@ class Users extends Component {
             <div>
 				<div className="top">
 					<div className="header" onClick={this.clearSearchQuery.bind(this)}>
-						Users ({this.state.resultsCount})
+						Projects ({this.state.resultsCount})
 					</div>
 					
 					<div>
@@ -202,4 +201,4 @@ class Users extends Component {
     }
 }
 
-export default Users;
+export default Projects;
