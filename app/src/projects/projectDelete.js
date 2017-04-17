@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import Title from '../app/title';
 
-class UserDelete extends Component {
+class ProjectDelete extends Component {
     constructor(props) {
         super(props);
 		
@@ -11,7 +11,6 @@ class UserDelete extends Component {
 			name: this.props.routeParams.name,
 			showProgress: false
 		}
-		//console.log(this.props.routeParams);
     }
 	
     deleteItem() {
@@ -19,7 +18,7 @@ class UserDelete extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/users/delete', {
+        fetch(appConfig.url + 'api/projects/delete', {
             method: 'post',
             body: JSON.stringify({
                 id: this.props.routeParams.id,
@@ -33,8 +32,8 @@ class UserDelete extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.text) {
-					appConfig.users.refresh = true;
-					hashHistory.push("/users");
+					appConfig.projects.refresh = true;
+					hashHistory.push("/projects");
 				} else {
 					this.setState({
 						badCredentials: true
@@ -48,8 +47,8 @@ class UserDelete extends Component {
             }) 
     }
 	
-	goUsers() {
-		hashHistory.push("/users");
+	goBack() {
+		hashHistory.push("/projects");
 	}
 	
     render() {
@@ -90,7 +89,7 @@ class UserDelete extends Component {
 					</button>
 	
 					<button className="button"
-						onClick={this.goUsers.bind(this)}>
+						onClick={this.goBack.bind(this)}>
 						Back
 					</button>
 					<br/>
@@ -104,4 +103,4 @@ class UserDelete extends Component {
     }
 }
 
-export default UserDelete;
+export default ProjectDelete;

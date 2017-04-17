@@ -125,14 +125,16 @@ class Projects extends Component {
 		appConfig.projects.item = {
 			id: item.id,
 			name: item.name,
-			pass: item.pass,
+			phone: item.phone,
+			address: item.address,
+			sum: item.sum,
 			description: item.description
 		};
-        hashHistory.push("/user-details/");
+        hashHistory.push("/project-details/");
     }
     
 	goAdd() {
-        hashHistory.push("/user-add/");
+        hashHistory.push("/project-add/");
     }
 	
 	goToMain() {

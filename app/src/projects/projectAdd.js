@@ -2,34 +2,26 @@ import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import Title from '../app/title';
 
-class UserAdd extends Component {
+class ProjectAdd extends Component {
     constructor(props) {
         super(props);
 		
 		this.state = {
 			invalidValue: false
 		}
-		
     }
 	
 	componentDidMount() {
-		if (appConfig.users.items.length < 1) {
-            hashHistory.push("/users");
-		} else {
-			/*
-			this.refs.username.value = appConfig.users.item.name;
-			this.refs.password.value = appConfig.users.item.pass;
-			this.refs.id.value = appConfig.users.item.id;
-			this.refs.description.value = appConfig.users.item.description;
-			*/
+		if (appConfig.projects.items.length < 1) {
+            hashHistory.push("/projects");
 		}
 	}
 
     addItem() {
         if (this.state.name == '' || this.state.name == undefined ||
-            this.state.pass == '' || this.state.pass == undefined ||
-            this.state.description == '' || 
-			this.state.description == undefined) {
+            this.state.phone == '' || this.state.phone == undefined ||
+            this.state.address == '' || this.state.address == undefined ||
+            this.state.description == '' || this.state.description == undefined) {
             this.setState({
                 invalidValue: true
             });
@@ -40,12 +32,14 @@ class UserAdd extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/users/add', {
+        fetch(appConfig.url + 'api/projects/add', {
             method: 'post',
             body: JSON.stringify({
                 id: + new Date,
                 name: this.state.name,
-                pass: this.state.pass,
+				phone: this.state.phone,
+				address: this.state.address,
+				sum: 0,
                 description: this.state.description,
 				authorization: appConfig.access_token
             }),
@@ -56,9 +50,9 @@ class UserAdd extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				if (responseData.pass) {
-					appConfig.users.refresh = true;
-					hashHistory.push("/users");
+				if (responseData.name) {
+					appConfig.projects.refresh = true;
+					hashHistory.push("/projects");
 				} else {
 					this.setState({
 						badCredentials: true
@@ -72,8 +66,8 @@ class UserAdd extends Component {
             }) 
     }
 	
-	goUsers() {
-		hashHistory.push("/users");
+	goBack() {
+		hashHistory.push("/projects");
 	}
 	
     render() {
@@ -109,35 +103,45 @@ class UserAdd extends Component {
 					<div>
 						<input type="text" 
 							className="input"
-							ref="username"
 							onChange={(event) => {
 								this.setState({
 									name: event.target.value,
 									invalidValue: false
 								})
 							}}
-							placeholder="Login"/>
+							placeholder="Name"/>
 					</div>
 					
 					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"
-							ref="password"
 							onChange={(event) => {
 								this.setState({
-									pass: event.target.value,
+									phone: event.target.value,
 									invalidValue: false
 								})
 							}}
-							placeholder="Password"/>
+							placeholder="Phone"/>
 					</div>		
 					
 					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"
-							ref="description"
+							onChange={(event) => {
+								this.setState({
+									address: event.target.value,
+									invalidValue: false
+								})
+							}}
+							placeholder="Address"/>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
 							onChange={(event) => {
 								this.setState({
 									description: event.target.value,
@@ -159,7 +163,7 @@ class UserAdd extends Component {
 						Submit
 					</button>					
  				
-					<button onClick={this.goUsers.bind(this)} className="button">
+					<button onClick={this.goBack.bind(this)} className="button">
 						Back
 					</button>
 				</div>		
@@ -169,4 +173,4 @@ class UserAdd extends Component {
     }
 }
 
-export default UserAdd;
+export default ProjectAdd;

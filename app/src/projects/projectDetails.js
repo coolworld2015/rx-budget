@@ -2,33 +2,38 @@ import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import Title from '../app/title';
 
-class UserDetails extends Component {
+class ProjectDetails extends Component {
     constructor(props) {
         super(props);
 		
 		this.state = {
-			name: appConfig.users.item.name,
-			pass: appConfig.users.item.pass,
-			id: appConfig.users.item.id,
-			description: appConfig.users.item.description,
+			id: appConfig.projects.item.id,
+			name: appConfig.projects.item.name,
+			phone: appConfig.projects.item.phone,
+			address: appConfig.projects.item.address,
+			sum: appConfig.projects.item.sum,
+			sumShow: ((+appConfig.projects.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
+			description: appConfig.projects.item.description,
 			invalidValue: false
 		}
 		
     }
 	
 	componentDidMount() {
-		if (!appConfig.users.item.id) {
-            hashHistory.push("/users");
+		if (!appConfig.projects.item.id) {
+            hashHistory.push("/projects");
 		} else {			
-			this.refs.username.value = appConfig.users.item.name;
-			this.refs.password.value = appConfig.users.item.pass;
-			this.refs.description.value = appConfig.users.item.description;
+			this.refs.name.value = appConfig.projects.item.name;
+			this.refs.phone.value = appConfig.projects.item.phone;
+			this.refs.address.value = appConfig.projects.item.address;
+			this.refs.sumShow.value = ((+appConfig.projects.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+			this.refs.description.value = appConfig.projects.item.description;
 		}
 	}
 
     updateItem() {
         if (this.state.name == '' || this.state.name == undefined ||
-            this.state.pass == '' || this.state.pass == undefined ||
+            this.state.phone == '' || this.state.phone == undefined ||
             this.state.description == '' || 
 			this.state.description == undefined) {
             this.setState({
@@ -41,12 +46,12 @@ class UserDetails extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/users/update', {
+        fetch(appConfig.url + 'api/projects/update', {
             method: 'post',
             body: JSON.stringify({
                 id: this.state.id,
                 name: this.state.name,
-                pass: this.state.pass,
+                phone: this.state.phone,
                 description: this.state.description,
 				authorization: appConfig.access_token
             }),
@@ -58,8 +63,8 @@ class UserDetails extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.pass) {
-					appConfig.users.refresh = true;
-					hashHistory.push("/users");
+					appConfig.projects.refresh = true;
+					hashHistory.push("/projects");
 				} else {
 					this.setState({
 						badCredentials: true
@@ -74,11 +79,11 @@ class UserDetails extends Component {
     }
 	
 	goDelete() {
-		hashHistory.push("/user-delete/" + this.state.id + "/" + this.state.name);
+		hashHistory.push("/project-delete/" + this.state.id + "/" + this.state.name);
 	}
 	
-	goUsers() {
-		hashHistory.push("/users");
+	goBack() {
+		hashHistory.push("/projects");
 	}
 	
     render() {
@@ -114,26 +119,39 @@ class UserDetails extends Component {
 					<div>
 						<input type="text" 
 							className="input"
-							ref="username"
+							ref="name"
 							onChange={(event) => {
 								this.setState({
 									name: event.target.value,
 								})
 							}}
-							placeholder="Login"/>
+							placeholder="Name"/>
 					</div>
 					
 					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"
-							ref="password"
+							ref="phone"
 							onChange={(event) => {
 								this.setState({
-									pass: event.target.value,
+									phone: event.target.value,
 								})
 							}}
-							placeholder="Password"/>
+							placeholder="Phone"/>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							ref="address"
+							onChange={(event) => {
+								this.setState({
+									address: event.target.value,
+								})
+							}}
+							placeholder="Address"/>
 					</div>		
 					
 					<hr className="splitter" />
@@ -146,6 +164,16 @@ class UserDetails extends Component {
 									description: event.target.value,
 								})
 							}}
+							placeholder="Description"/>
+					</div>
+ 		
+				
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							readOnly={true}
+							ref="sumShow"
 							placeholder="Description"/>
 					</div>
 				</div>
@@ -166,7 +194,7 @@ class UserDetails extends Component {
 					</button>			
 					<br/>					
 					<br/>					
-					<button onClick={this.goUsers.bind(this)} className="button">
+					<button onClick={this.goBack.bind(this)} className="button">
 						Back
 					</button>
 				</div>		
@@ -176,4 +204,4 @@ class UserDetails extends Component {
     }
 }
 
-export default UserDetails;
+export default ProjectDetails;
