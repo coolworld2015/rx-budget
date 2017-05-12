@@ -112,7 +112,7 @@ class Login extends Component {
 							ref="username"
 							onChange={(event) => {
 								this.setState({
-									name: event.target.value,
+									username: event.target.value,
 								})
 							}}
 							placeholder="Login"/>

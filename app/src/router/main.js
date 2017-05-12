@@ -35,7 +35,7 @@ class Main extends Component {
 				</div>
 
 				<div>
-					<br/>
+					<hr/><br/>
 					<div onClick={this.goProjects.bind(this)} className="items">Projects</div><br/>
 					<div onClick={this.goUsers.bind(this)} className="items">Users</div><br/>
 					<div onClick={this.goAudit.bind(this)} className="items">Audit</div><br/>
