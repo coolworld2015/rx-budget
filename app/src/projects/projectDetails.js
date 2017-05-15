@@ -52,6 +52,8 @@ class ProjectDetails extends Component {
                 id: this.state.id,
                 name: this.state.name,
                 phone: this.state.phone,
+                address: this.state.address,
+                sum: this.state.sum,
                 description: this.state.description,
 				authorization: appConfig.access_token
             }),
@@ -62,18 +64,20 @@ class ProjectDetails extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				if (responseData.pass) {
+				if (responseData.id) {
 					appConfig.projects.refresh = true;
 					hashHistory.push("/projects");
 				} else {
 					this.setState({
-						badCredentials: true
+						serverError: true,
+						showProgress: false
 					});
 				}
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
             }) 
     }
@@ -90,7 +94,7 @@ class ProjectDetails extends Component {
         var errorCtrl, validCtrl, loading;
 
         if (this.state.serverError) {
-            errorCtrl = <div className="valid">
+            errorCtrl = <div className="error">
 				Something went wrong.
 			</div>;
         }

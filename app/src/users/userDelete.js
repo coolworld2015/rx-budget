@@ -43,7 +43,8 @@ class UserDelete extends Component {
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
             }) 
     }
@@ -53,9 +54,15 @@ class UserDelete extends Component {
 	}
 	
     render() {
-		var loading;
-
-         if (this.state.showProgress) {
+		var errorCtrl, loading;
+		
+        if (this.state.serverError) {
+            errorCtrl = <div className="error">
+				Something went wrong.
+			</div>;
+        }
+		
+		if (this.state.showProgress) {
             loading = <div className="loading">
                 <span>Loading...</span>
             </div>;
@@ -77,6 +84,7 @@ class UserDelete extends Component {
 					<br/><br/>
 				</div>
 				
+				{errorCtrl}
 				{loading}
 				
 				<div className="showButtons1">

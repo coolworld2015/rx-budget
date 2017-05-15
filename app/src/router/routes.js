@@ -16,6 +16,8 @@ import ProjectAdd from '../projects/projectAdd';
 import ProjectDetails from '../projects/projectDetails';
 import ProjectDelete from '../projects/projectDelete';
 
+import Test from '../test/test';
+
 export default (
     <Route path="/" component={Root}>
 	
@@ -38,5 +40,7 @@ export default (
 		<Route path="project-delete">
             <Route path=":id/:name" component={ProjectDelete}/>
         </Route>
+		
+		<Route path="test" component={Test}/>
     </Route>
 );

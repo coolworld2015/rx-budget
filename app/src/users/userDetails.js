@@ -57,18 +57,20 @@ class UserDetails extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				if (responseData.pass) {
+				if (responseData.id) {
 					appConfig.users.refresh = true;
 					hashHistory.push("/users");
 				} else {
 					this.setState({
-						badCredentials: true
+						serverError: true,
+						showProgress: false
 					});
 				}
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
             }) 
     }
@@ -85,7 +87,7 @@ class UserDetails extends Component {
         var errorCtrl, validCtrl, loading;
 
         if (this.state.serverError) {
-            errorCtrl = <div className="valid">
+            errorCtrl = <div className="error">
 				Something went wrong.
 			</div>;
         }

@@ -9,14 +9,14 @@ class Login extends Component {
 		
 		this.state = {
             showProgress: false,
-            username: '1',
-            password: '1'
+            username: '2',
+            password: '2'
         }
     }
 	
 	componentDidMount() {
-		this.refs.username.value = '1';
-		this.refs.password.value = '1';
+		this.refs.username.value = '2';
+		this.refs.password.value = '2';
 	}
 	
     onLogin() {

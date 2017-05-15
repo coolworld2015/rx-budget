@@ -16,7 +16,7 @@ class Title extends Component {
         return (
             <div>
 				<center>
-				<div className="brandname">RX-Base</div>
+				<div className="brandname">RX-Budget</div>
 				<div>
 					<img src="./logo.jpg" onClick={this.goToMain.bind(this)} className="logo"/>
 				</div>

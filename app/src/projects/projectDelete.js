@@ -36,13 +36,15 @@ class ProjectDelete extends Component {
 					hashHistory.push("/projects");
 				} else {
 					this.setState({
-						badCredentials: true
+						serverError: true,
+						showProgress: false
 					});
 				}
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
             }) 
     }
@@ -52,9 +54,15 @@ class ProjectDelete extends Component {
 	}
 	
     render() {
-		var loading;
-
-         if (this.state.showProgress) {
+		var errorCtrl, loading;
+		
+        if (this.state.serverError) {
+            errorCtrl = <div className="error">
+				Something went wrong.
+			</div>;
+        }
+		
+		if (this.state.showProgress) {
             loading = <div className="loading">
                 <span>Loading...</span>
             </div>;
@@ -76,6 +84,7 @@ class ProjectDelete extends Component {
 					<br/><br/>
 				</div>
 				
+				{errorCtrl}
 				{loading}
 				
 				<div className="showButtons1">

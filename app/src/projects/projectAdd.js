@@ -11,7 +11,7 @@ class ProjectAdd extends Component {
 		}
     }
 	
-	componentDidMount() {
+	componentDidMount1() {
 		if (appConfig.projects.items.length < 1) {
             hashHistory.push("/projects");
 		}
@@ -50,18 +50,20 @@ class ProjectAdd extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				if (responseData.name) {
+				if (responseData.id) {
 					appConfig.projects.refresh = true;
 					hashHistory.push("/projects");
 				} else {
 					this.setState({
-						badCredentials: true
+						serverError: true,
+						showProgress: false
 					});
 				}
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
             }) 
     }
@@ -74,7 +76,7 @@ class ProjectAdd extends Component {
         var errorCtrl, validCtrl, loading;
 
         if (this.state.serverError) {
-            errorCtrl = <div className="valid">
+            errorCtrl = <div className="error">
 				Something went wrong.
 			</div>;
         }

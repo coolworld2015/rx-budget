@@ -12,7 +12,7 @@ class UserAdd extends Component {
 		
     }
 	
-	componentDidMount() {
+	componentDidMount1() {
 		if (appConfig.users.items.length < 1) {
             hashHistory.push("/users");
 		} else {
@@ -56,18 +56,20 @@ class UserAdd extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				if (responseData.pass) {
+				if (responseData.id) {
 					appConfig.users.refresh = true;
 					hashHistory.push("/users");
 				} else {
 					this.setState({
-						badCredentials: true
+						serverError: true,
+						showProgress: false
 					});
 				}
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
             }) 
     }
@@ -80,7 +82,7 @@ class UserAdd extends Component {
         var errorCtrl, validCtrl, loading;
 
         if (this.state.serverError) {
-            errorCtrl = <div className="valid">
+            errorCtrl = <div className="error">
 				Something went wrong.
 			</div>;
         }

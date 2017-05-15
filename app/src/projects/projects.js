@@ -145,7 +145,7 @@ class Projects extends Component {
 		var errorCtrl, loading;
 
         if (this.state.serverError) {
-            errorCtrl = <div className="valid">
+            errorCtrl = <div className="error">
 				Something went wrong.
             </div>;
         }
