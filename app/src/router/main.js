@@ -18,6 +18,10 @@ class Main extends Component {
 		hashHistory.push("/projects");
 	}
 	
+	goDepartments() {
+		hashHistory.push("/departments");
+	}
+	
 	goAudit() {
 		hashHistory.push("/audit");
 	}
@@ -41,6 +45,7 @@ class Main extends Component {
 				<div>
 					<hr/><br/>
 					<div onClick={this.goProjects.bind(this)} className="items">Projects</div><br/>
+					<div onClick={this.goDepartments.bind(this)} className="items">Departments</div><br/>
 					<div onClick={this.goUsers.bind(this)} className="items">Users</div><br/>
 					<div onClick={this.goAudit.bind(this)} className="items">Audit</div><br/>
 					<div onClick={this.goTest.bind(this)} className="items">Test</div><br/>

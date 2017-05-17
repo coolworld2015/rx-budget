@@ -18,6 +18,11 @@ import ProjectDelete from '../projects/projectDelete';
 
 import Test from '../test/test';
 
+import Departments from '../departments/departments';
+import DepartmentAdd from '../departments/departmentAdd';
+import DepartmentDetails from '../departments/departmentDetails';
+import DepartmentDelete from '../departments/departmentDelete';
+
 export default (
     <Route path="/" component={Root}>
 	
@@ -42,5 +47,12 @@ export default (
         </Route>
 		
 		<Route path="test" component={Test}/>
+				
+		<Route path="departments" component={Departments}/>
+		<Route path="department-add" component={DepartmentAdd}/>
+		<Route path="department-details" component={DepartmentDetails}/>
+		<Route path="department-delete">
+            <Route path=":id/:name" component={DepartmentDelete}/>
+        </Route>
     </Route>
 );

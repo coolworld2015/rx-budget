@@ -29,6 +29,11 @@ class App extends Component {
                 refresh: true,
 				items: [],
 				item: {}
+            },
+			departments: {
+                refresh: true,
+				items: [],
+				item: {}
             }
         };
     }
@@ -46,7 +51,7 @@ class App extends Component {
     render() {
         if (this.state.isLoggedIn) {
             return (
-				<AppContainer onLogOut={this.onLogOut.bind(this)}/>
+				<AppContainer />
             )
         } else {
             return (
