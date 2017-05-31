@@ -8,50 +8,9 @@ class DepartmentAdd extends Component {
 		
 		this.state = {
 			invalidValue: false,
-			showProgress: true,
 			items: [],
 			options: []
 		}
-		this.getItems();
-    }
-	
-	componentDidMount1() {
-		if (appConfig.departments.items.length < 1) {
-            hashHistory.push("/departments");
-		}
-	}
-	
-    getItems() {		
-        fetch(appConfig.url + 'api/projects/get', {			
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-				'Authorization': appConfig.access_token
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {				
-				let items = responseData.sort(this.sort);
-				let options = [];
-				
-				for (var i = 0; i < items.length; i++) {
-					options.push(
-						<option key={i} value={items[i].id}>{items[i].name}</option>
-					);
-				}
-				this.setState({
-					options: options,
-					showProgress: false
-				});
-            })
-            .catch((error)=> {
-				console.log(error)
-                this.setState({
-                    serverError: true,
-					showProgress: false
-                });
-            })
     }
 	
     addItem() {
@@ -139,13 +98,6 @@ class DepartmentAdd extends Component {
 				</div>
 				
 				<div className="form">
-					<div>
-						<select className="input">
-							{this.state.options}
-						</select>
-					</div>
-					
-					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"

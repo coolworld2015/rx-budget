@@ -125,6 +125,8 @@ class Employees extends Component {
 		appConfig.employees.item = {
 			id: item.id,
 			name: item.name,
+			department: item.department,
+			departmentID: item.departmentID,
 			phone: item.phone,
 			address: item.address,
 			sum: item.sum,

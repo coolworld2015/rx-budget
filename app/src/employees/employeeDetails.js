@@ -2,37 +2,41 @@ import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import Title from '../app/title';
 
-class DepartmentDetails extends Component {
+class EmployeeDetails extends Component {
     constructor(props) {
         super(props);
 		
 		this.state = {
-			id: appConfig.departments.item.id,
-			name: appConfig.departments.item.name,
-			phone: appConfig.departments.item.phone,
-			address: appConfig.departments.item.address,
-			sum: appConfig.departments.item.sum,
-			sumShow: ((+appConfig.departments.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
-			description: appConfig.departments.item.description,
+			id: appConfig.employees.item.id,
+			name: appConfig.employees.item.name,
+			department: appConfig.employees.item.department,
+			departmentID: appConfig.employees.item.departmentID,
+			phone: appConfig.employees.item.phone,
+			address: appConfig.employees.item.address,
+			sum: appConfig.employees.item.sum,
+			sumShow: ((+appConfig.employees.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
+			description: appConfig.employees.item.description,
 			invalidValue: false
 		}
 		
     }
 	
 	componentDidMount() {
-		if (!appConfig.departments.item.id) {
-            hashHistory.push("/departments");
+		if (!appConfig.employees.item.id) {
+            hashHistory.push("/employees");
 		} else {			
-			this.refs.name.value = appConfig.departments.item.name;
-			this.refs.phone.value = appConfig.departments.item.phone;
-			this.refs.address.value = appConfig.departments.item.address;
-			this.refs.sumShow.value = ((+appConfig.departments.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
-			this.refs.description.value = appConfig.departments.item.description;
+			this.refs.name.value = appConfig.employees.item.name;
+			this.refs.department.value = appConfig.employees.item.department;
+			this.refs.phone.value = appConfig.employees.item.phone;
+			this.refs.address.value = appConfig.employees.item.address;
+			this.refs.sumShow.value = ((+appConfig.employees.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+			this.refs.description.value = appConfig.employees.item.description;
 		}
 	}
 
     updateItem() {
         if (this.state.name == '' || this.state.name == undefined ||
+			this.state.departmentID == undefined ||
             this.state.phone == '' || this.state.phone == undefined ||
             this.state.description == '' || 
 			this.state.description == undefined) {
@@ -46,11 +50,13 @@ class DepartmentDetails extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/departments/update', {
+        fetch(appConfig.url + 'api/employees/update', {
             method: 'post',
             body: JSON.stringify({
                 id: this.state.id,
                 name: this.state.name,
+				department: this.state.department,
+				departmentID: this.state.departmentID,
                 phone: this.state.phone,
                 address: this.state.address,
                 sum: this.state.sum,
@@ -65,8 +71,8 @@ class DepartmentDetails extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.id) {
-					appConfig.departments.refresh = true;
-					hashHistory.push("/departments");
+					appConfig.employees.refresh = true;
+					hashHistory.push("/employees");
 				} else {
 					this.setState({
 						serverError: true,
@@ -83,11 +89,11 @@ class DepartmentDetails extends Component {
     }
 	
 	goDelete() {
-		hashHistory.push("/department-delete/" + this.state.id + "/" + this.state.name);
+		hashHistory.push("/employee-delete/" + this.state.id + "/" + this.state.name);
 	}
 	
 	goBack() {
-		hashHistory.push("/departments");
+		hashHistory.push("/employees");
 	}
 	
     render() {
@@ -129,6 +135,14 @@ class DepartmentDetails extends Component {
 									name: event.target.value,
 								})
 							}}
+							placeholder="Name"/>
+					</div>
+					
+					<hr className="splitter" />					
+					<div>
+						<input type="text" 
+							className="input"
+							ref="department"
 							placeholder="Name"/>
 					</div>
 					
@@ -208,4 +222,4 @@ class DepartmentDetails extends Component {
     }
 }
 
-export default DepartmentDetails;
+export default EmployeeDetails;

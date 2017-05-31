@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import Title from '../app/title';
 
-class DepartmentDelete extends Component {
+class EmployeeDelete extends Component {
     constructor(props) {
         super(props);
 		
@@ -18,7 +18,7 @@ class DepartmentDelete extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/departments/delete', {
+        fetch(appConfig.url + 'api/employees/delete', {
             method: 'post',
             body: JSON.stringify({
                 id: this.props.routeParams.id,
@@ -32,8 +32,8 @@ class DepartmentDelete extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.text) {
-					appConfig.departments.refresh = true;
-					hashHistory.push("/departments");
+					appConfig.employees.refresh = true;
+					hashHistory.push("/employees");
 				} else {
 					this.setState({
 						serverError: true,
@@ -50,7 +50,7 @@ class DepartmentDelete extends Component {
     }
 	
 	goBack() {
-		hashHistory.push("/departments");
+		hashHistory.push("/employees");
 	}
 	
     render() {
@@ -112,4 +112,4 @@ class DepartmentDelete extends Component {
     }
 }
 
-export default DepartmentDelete;
+export default EmployeeDelete;

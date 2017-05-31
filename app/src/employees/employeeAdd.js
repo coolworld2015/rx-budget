@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
 import Title from '../app/title';
 
-class DepartmentAdd extends Component {
+class EmployeeAdd extends Component {
     constructor(props) {
         super(props);
 		
@@ -16,13 +16,13 @@ class DepartmentAdd extends Component {
     }
 	
 	componentDidMount1() {
-		if (appConfig.departments.items.length < 1) {
-            hashHistory.push("/departments");
+		if (appConfig.employees.items.length < 1) {
+            hashHistory.push("/employees");
 		}
 	}
 	
     getItems() {		
-        fetch(appConfig.url + 'api/projects/get', {			
+        fetch(appConfig.url + 'api/departments/get', {			
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -33,7 +33,7 @@ class DepartmentAdd extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {				
 				let items = responseData.sort(this.sort);
-				let options = [];
+				let options = [<option key='-1'>Select department</option>];
 				
 				for (var i = 0; i < items.length; i++) {
 					options.push(
@@ -56,6 +56,7 @@ class DepartmentAdd extends Component {
 	
     addItem() {
         if (this.state.name == '' || this.state.name == undefined ||
+            this.state.department == 'Select department' || this.state.departmentID == undefined ||
             this.state.phone == '' || this.state.phone == undefined ||
             this.state.address == '' || this.state.address == undefined ||
             this.state.description == '' || this.state.description == undefined) {
@@ -69,13 +70,15 @@ class DepartmentAdd extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/departments/add', {
+        fetch(appConfig.url + 'api/employees/add', {
             method: 'post',
             body: JSON.stringify({
                 id: + new Date,
                 name: this.state.name,
 				phone: this.state.phone,
 				address: this.state.address,
+				department: this.state.department,
+				departmentID: this.state.departmentID,
 				sum: 0,
                 description: this.state.description,
 				authorization: appConfig.access_token
@@ -88,8 +91,8 @@ class DepartmentAdd extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.id) {
-					appConfig.departments.refresh = true;
-					hashHistory.push("/departments");
+					appConfig.employees.refresh = true;
+					hashHistory.push("/employees");
 				} else {
 					this.setState({
 						serverError: true,
@@ -106,7 +109,7 @@ class DepartmentAdd extends Component {
     }
 	
 	goBack() {
-		hashHistory.push("/departments");
+		hashHistory.push("/employees");
 	}
 	
     render() {
@@ -140,7 +143,14 @@ class DepartmentAdd extends Component {
 				
 				<div className="form">
 					<div>
-						<select className="input">
+						<select className="input"
+							onChange={(event) => {
+								this.setState({
+									department: event.target.children[event.target.selectedIndex].label,
+									departmentID: event.target.value,
+									invalidValue: false
+								})
+							}}>
 							{this.state.options}
 						</select>
 					</div>
@@ -219,4 +229,4 @@ class DepartmentAdd extends Component {
     }
 }
 
-export default DepartmentAdd;
+export default EmployeeAdd;
