@@ -34,6 +34,11 @@ class App extends Component {
                 refresh: true,
 				items: [],
 				item: {}
+            },
+			employees: {
+                refresh: true,
+				items: [],
+				item: {}
             }
         };
     }

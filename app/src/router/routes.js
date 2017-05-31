@@ -23,6 +23,8 @@ import DepartmentAdd from '../departments/departmentAdd';
 import DepartmentDetails from '../departments/departmentDetails';
 import DepartmentDelete from '../departments/departmentDelete';
 
+import Employees from '../employees/employees';
+
 export default (
     <Route path="/" component={Root}>
 	
@@ -54,5 +56,7 @@ export default (
 		<Route path="department-delete">
             <Route path=":id/:name" component={DepartmentDelete}/>
         </Route>
+		
+		<Route path="employees" component={Employees}/>
     </Route>
 );
