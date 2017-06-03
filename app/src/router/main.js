@@ -10,6 +10,14 @@ class Main extends Component {
         super(props);
     }	
 	
+	goInputs() {
+		hashHistory.push("/inputs");
+	}
+	
+	goOutputs() {
+		hashHistory.push("/outputs");
+	}
+	
 	goUsers() {
 		hashHistory.push("/users");
 	}	
@@ -48,6 +56,8 @@ class Main extends Component {
 
 				<div>
 					<hr/><br/>
+					<div onClick={this.goInputs.bind(this)} className="items">Inputs</div><br/>
+					<div onClick={this.goOutputs.bind(this)} className="items">Outputs</div><br/>
 					<div onClick={this.goProjects.bind(this)} className="items">Projects</div><br/>
 					<div onClick={this.goDepartments.bind(this)} className="items">Departments</div><br/>
 					<div onClick={this.goEmployees.bind(this)} className="items">Employees</div><br/>

@@ -39,6 +39,16 @@ class App extends Component {
                 refresh: true,
 				items: [],
 				item: {}
+            },
+			inputs: {
+                refresh: true,
+				items: [],
+				item: {}
+            },
+			outputs: {
+                refresh: true,
+				items: [],
+				item: {}
             }
         };
     }

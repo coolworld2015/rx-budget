@@ -28,6 +28,11 @@ import EmployeeAdd from '../employees/employeeAdd';
 import EmployeeDetails from '../employees/employeeDetails';
 import EmployeeDelete from '../employees/employeeDelete';
 
+import Inputs from '../inputs/inputs';
+import InputAdd from '../inputs/inputAdd';
+import InputDetails from '../inputs/inputDetails';
+import InputDelete from '../inputs/inputDelete';
+
 export default (
     <Route path="/" component={Root}>
 	
@@ -65,6 +70,13 @@ export default (
 		<Route path="employee-details" component={EmployeeDetails}/>
 		<Route path="employee-delete">
             <Route path=":id/:name" component={EmployeeDelete}/>
+        </Route>
+		
+		<Route path="inputs" component={Inputs}/>
+		<Route path="input-add" component={InputAdd}/>
+		<Route path="input-details" component={InputDetails}/>
+		<Route path="input-delete">
+            <Route path=":id/:name" component={InputDelete}/>
         </Route>		
     </Route>
 );
