@@ -56,14 +56,17 @@ class Main extends Component {
 
 				<div>
 					<hr/><br/>
+					<div onClick={this.goInputs.bind(this)} className="items">Assets</div><br/>
+					<div onClick={this.goInputs.bind(this)} className="items">Reports</div><br/>
 					<div onClick={this.goInputs.bind(this)} className="items">Inputs</div><br/>
 					<div onClick={this.goOutputs.bind(this)} className="items">Outputs</div><br/>
+					<div onClick={this.goInputs.bind(this)} className="items">Resources</div><br/>
 					<div onClick={this.goProjects.bind(this)} className="items">Projects</div><br/>
 					<div onClick={this.goDepartments.bind(this)} className="items">Departments</div><br/>
 					<div onClick={this.goEmployees.bind(this)} className="items">Employees</div><br/>
 					<div onClick={this.goUsers.bind(this)} className="items">Users</div><br/>
 					<div onClick={this.goAudit.bind(this)} className="items">Audit</div><br/>
-					<div onClick={this.goTest.bind(this)} className="items">Test</div><br/>
+
 					<div onClick={this.onLogOut.bind(this)} className="items">Logout</div>
 					<br/><hr/>
 				</div>
@@ -73,5 +76,5 @@ class Main extends Component {
 		)
     }
 }
-
+					/*  <div onClick={this.goTest.bind(this)} className="items">Test</div><br/>*/ 
 export default Main;
