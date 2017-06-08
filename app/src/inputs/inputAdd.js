@@ -14,8 +14,9 @@ class InputAdd extends Component {
 		this.state = {
 			invalidValue: false,
 			showProgress: true,
-			items: [],
-			options: [],
+			projects: [],
+			departments: [],
+            employees: [],
 			invoiceID: (appConfig.inputs.items.length + 1).toString(),
 			date: date,
 			id: +new Date,
@@ -25,10 +26,44 @@ class InputAdd extends Component {
     }
 	
 	componentDidMount() {
-		this.getItems();
+		this.getProjects();
+		this.getDepartments();
+		this.getEmployees();
 	}
 	
-    getItems() {		
+    getProjects() {		
+        fetch(appConfig.url + 'api/projects/get', {			
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+				'Authorization': appConfig.access_token
+            }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {				
+				let items = responseData.sort(this.sort);
+				let options = [<option key='-1'>Select project</option>];
+				
+				for (var i = 0; i < items.length; i++) {
+					options.push(
+						<option key={i} value={items[i].id}>{items[i].name}</option>
+					);
+				}
+				this.setState({
+					projects: options,
+					showProgress: false
+				});
+            })
+            .catch((error)=> {
+                this.setState({
+                    serverError: true,
+					showProgress: false
+                });
+            })
+    }
+	
+    getDepartments() {		
         fetch(appConfig.url + 'api/departments/get', {			
             method: 'get',
             headers: {
@@ -48,17 +83,59 @@ class InputAdd extends Component {
 					);
 				}
 				this.setState({
-					options: options,
+					departments: options,
 					showProgress: false
 				});
             })
             .catch((error)=> {
-				console.log(error)
                 this.setState({
                     serverError: true,
 					showProgress: false
                 });
             })
+    }	
+	
+    getEmployees() {		
+        fetch(appConfig.url + 'api/employees/get', {			
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+				'Authorization': appConfig.access_token
+            }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {				
+				let items = responseData.sort(this.sort);
+				let options = [<option key='-1'>Select employee</option>];
+				
+				for (var i = 0; i < items.length; i++) {
+					options.push(
+						<option key={i} value={items[i].id}>{items[i].name}</option>
+					);
+				}
+				this.setState({
+					employees: options,
+					showProgress: false
+				});
+            })
+            .catch((error)=> {
+                this.setState({
+                    serverError: true,
+					showProgress: false
+                });
+            })
+    }
+	
+    sort(a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
     }
 	
     addItem() {
@@ -181,12 +258,12 @@ class InputAdd extends Component {
 						<select className="input"
 							onChange={(event) => {
 								this.setState({
-									department: event.target.children[event.target.selectedIndex].label,
-									departmentID: event.target.value,
+									project: event.target.children[event.target.selectedIndex].label,
+									projectID: event.target.value,
 									invalidValue: false
 								})
 							}}>
-							{this.state.options}
+							{this.state.projects}
 						</select>
 					</div>
 					
@@ -200,7 +277,21 @@ class InputAdd extends Component {
 									invalidValue: false
 								})
 							}}>
-							{this.state.options}
+							{this.state.departments}
+						</select>
+					</div>
+								
+					<hr className="splitter" />
+					<div>
+						<select className="input"
+							onChange={(event) => {
+								this.setState({
+									employee: event.target.children[event.target.selectedIndex].label,
+									employeeID: event.target.value,
+									invalidValue: false
+								})
+							}}>
+							{this.state.employees}
 						</select>
 					</div>
 					

@@ -54,6 +54,17 @@ class EmployeeAdd extends Component {
             })
     }
 	
+    sort(a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
+    }
+	
     addItem() {
         if (this.state.name == '' || this.state.name == undefined ||
             this.state.department == 'Select department' || this.state.departmentID == undefined ||
