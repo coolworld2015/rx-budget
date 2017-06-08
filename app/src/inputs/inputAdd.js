@@ -20,6 +20,7 @@ class InputAdd extends Component {
 			invoiceID: (appConfig.inputs.items.length + 1).toString(),
 			date: date,
 			id: +new Date,
+			price: '0.00',
 			total: '0.00'
 		}
 		
@@ -29,6 +30,7 @@ class InputAdd extends Component {
 		this.getProjects();
 		this.getDepartments();
 		this.getEmployees();
+		this.getGoods();
 	}
 	
     getProjects() {		
@@ -116,6 +118,39 @@ class InputAdd extends Component {
 				}
 				this.setState({
 					employees: options,
+					showProgress: false
+				});
+            })
+            .catch((error)=> {
+                this.setState({
+                    serverError: true,
+					showProgress: false
+                });
+            })
+    }	
+	
+    getGoods() {		
+        fetch(appConfig.url + 'api/goods/get', {			
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+				'Authorization': appConfig.access_token
+            }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {				
+				let items = responseData.sort(this.sort);
+				let options = [<option key='-1'>Select resource</option>];
+				
+				for (var i = 0; i < items.length; i++) {
+					options.push(
+						<option key={i} value={items[i].id}>{items[i].name}</option>
+					);
+				}
+				this.setState({
+					resources: items,
+					goods: options,
 					showProgress: false
 				});
             })
@@ -293,6 +328,39 @@ class InputAdd extends Component {
 							}}>
 							{this.state.employees}
 						</select>
+					</div>					
+					
+					<hr className="splitter" />
+					<div>
+						<select className="input"
+							onChange={(event) => {
+								let arr = [].concat(this.state.resources);
+ 								let resource = arr.filter((el) => el.id == event.target.value);
+								let price;
+								console.log(resource)
+								if (resource[0] === undefined) {
+									price = '0.00'
+								} else {
+									price = resource[0].price;
+								}
+								
+								this.setState({
+									good: event.target.children[event.target.selectedIndex].label,
+									goodID: event.target.value,
+									price: price,
+									invalidValue: false
+								})
+							}}>
+							{this.state.goods}
+						</select>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							value={this.state.price}
+							placeholder="Price"/>
 					</div>
 					
 					<hr className="splitter" />
@@ -301,50 +369,33 @@ class InputAdd extends Component {
 							className="input"
 							onChange={(event) => {
 								this.setState({
-									name: event.target.value,
+									quantity: event.target.value,
 									invalidValue: false
 								})
 							}}
-							placeholder="Name"/>
-					</div>
-					
-					<hr className="splitter" />
-					<div>
-						<input type="text" 
-							className="input"
-							onChange={(event) => {
-								this.setState({
-									phone: event.target.value,
-									invalidValue: false
-								})
-							}}
-							placeholder="Phone"/>
+							placeholder="Quantity"/>
 					</div>		
 					
 					<hr className="splitter" />
 					<div>
-						<input type="text" 
-							className="input"
-							onChange={(event) => {
-								this.setState({
-									address: event.target.value,
-									invalidValue: false
-								})
-							}}
-							placeholder="Address"/>
-					</div>
-					
-					<hr className="splitter" />
-					<div>
-						<input type="text" 
-							className="input"
+						<textarea
+							className="textarea"
 							onChange={(event) => {
 								this.setState({
 									description: event.target.value,
 									invalidValue: false
 								})
 							}}
-							placeholder="Description"/>
+							placeholder="Description">
+						</textarea>
+					</div>			
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							value={this.state.total}
+							placeholder="Total"/>
 					</div>
 				</div>
 				
@@ -363,6 +414,8 @@ class InputAdd extends Component {
 						Back
 					</button>
 				</div>		
+				<br/>
+				<br/>
 				</center>				
 			</div>
         );

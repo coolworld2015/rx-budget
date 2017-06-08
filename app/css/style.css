@@ -202,18 +202,16 @@ body {
 }
 
 .textarea {
-	text-align: center;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 20px;
     color: white;
-    color: black;
-    background-color: cadetblue;
-    background-color: white;
+    background-color: black;
     border-style: none;
-	width: 96%;
-	height: 35px;
-	margin: 10px 0 5px 10px;
-	padding-top: 12px;
+	width: 98%;
+	height: 75px;
+	margin-top: 10px;
+	padding-left: 5px;
+	font-family: Arial;
 }
 
 .span {
