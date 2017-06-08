@@ -6,19 +6,26 @@ class InputAdd extends Component {
     constructor(props) {
         super(props);
 		
+		let d = new Date;
+        let todayDate = d.getMonth() + 1 + '/' + (d.getDate()) + '/' + d.getFullYear();
+		let time = d.toTimeString().split(' ');
+		let date = todayDate + ' ' + time[0];
+		
 		this.state = {
 			invalidValue: false,
 			showProgress: true,
 			items: [],
-			options: []
+			options: [],
+			invoiceID: (appConfig.inputs.items.length + 1).toString(),
+			date: date,
+			id: +new Date,
+			total: '0.00'
 		}
-		this.getItems();
+		
     }
 	
-	componentDidMount1() {
-		if (appConfig.inputs.items.length < 1) {
-            hashHistory.push("/inputs");
-		}
+	componentDidMount() {
+		this.getItems();
 	}
 	
     getItems() {		
@@ -142,6 +149,48 @@ class InputAdd extends Component {
 				</div>
 				
 				<div className="form">
+					<div>
+						<input type="text" 
+							className="input"
+							onChange={(event) => {
+								this.setState({
+									invoiceID: event.target.value,
+									invalidValue: false
+								})
+							}}
+							value={this.state.invoiceID}
+							placeholder="ID"/>
+					</div>
+					
+					<hr className="splitter" />					
+					<div>
+						<input type="text" 
+							className="input"
+							onChange={(event) => {
+								this.setState({
+									date: event.target.value,
+									invalidValue: false
+								})
+							}}
+							value={this.state.date}
+							placeholder="Date"/>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<select className="input"
+							onChange={(event) => {
+								this.setState({
+									department: event.target.children[event.target.selectedIndex].label,
+									departmentID: event.target.value,
+									invalidValue: false
+								})
+							}}>
+							{this.state.options}
+						</select>
+					</div>
+					
+					<hr className="splitter" />
 					<div>
 						<select className="input"
 							onChange={(event) => {

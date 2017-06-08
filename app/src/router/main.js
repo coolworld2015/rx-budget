@@ -51,7 +51,7 @@ class Main extends Component {
 			<div>
 				<center>
 				<div className="header">
-					Main
+					RX-Budget
 				</div>
 
 				<div>
