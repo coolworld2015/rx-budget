@@ -25,6 +25,11 @@ class App extends Component {
 				items: [],
 				item: {}
             },
+			goods: {
+				refresh: true,
+				items: [],
+				item: {}
+            },
 			projects: {
                 refresh: true,
 				items: [],

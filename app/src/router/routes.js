@@ -33,6 +33,8 @@ import InputAdd from '../inputs/inputAdd';
 import InputDetails from '../inputs/inputDetails';
 import InputDelete from '../inputs/inputDelete';
 
+import Assets from '../resources/assets';
+
 export default (
     <Route path="/" component={Root}>
 	
@@ -77,6 +79,8 @@ export default (
 		<Route path="input-details" component={InputDetails}/>
 		<Route path="input-delete">
             <Route path=":id/:name" component={InputDelete}/>
-        </Route>		
+        </Route>
+		
+		<Route path="assets" component={Assets}/>
     </Route>
 );
