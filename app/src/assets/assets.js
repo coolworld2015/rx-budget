@@ -9,8 +9,8 @@ class Assets extends Component {
 
         this.state = {
             showProgress: false,
-            items: appConfig.goods.items.slice(0, 20),
-			filteredItems: appConfig.goods.items,
+            items: appConfig.assets.items.slice(0, 20),
+			filteredItems: appConfig.assets.items,
 			resultsCount: 0,
             recordsCount: 20,
             positionY: 0
@@ -19,11 +19,11 @@ class Assets extends Component {
 	
 	componentDidMount() {
 		this.setState({
-            resultsCount: appConfig.goods.items.length
+            resultsCount: appConfig.assets.items.length
         });
 		
-		if (appConfig.goods.refresh) {
-            appConfig.goods.refresh = false;
+		if (appConfig.assets.refresh) {
+            appConfig.assets.refresh = false;
 			this.getItems();
 		}
 	}
@@ -48,7 +48,7 @@ class Assets extends Component {
 
     onChangeText(e) {
 		var text = e.target.value;
-        var arr = [].concat(appConfig.goods.items);
+        var arr = [].concat(appConfig.assets.items);
         var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) != -1);
         this.setState({
             items: items,
@@ -61,9 +61,9 @@ class Assets extends Component {
 	clearSearchQuery() {
 		this.refs.search.value = '';
 		this.setState({
-			items: appConfig.goods.items.slice(0, 20),
-            resultsCount: appConfig.goods.items.length,
-            filteredItems: appConfig.goods.items,
+			items: appConfig.assets.items.slice(0, 20),
+            resultsCount: appConfig.assets.items.length,
+            filteredItems: appConfig.assets.items,
 			positionY: 0,
 			recordsCount: 20
 		});
@@ -87,11 +87,11 @@ class Assets extends Component {
 				let arr = [].concat(responseData.sort(this.sort));
 				let items = arr.filter((el) => el.store == true);
 				
-				appConfig.goods.items = items;
+				appConfig.assets.items = items;
                 this.setState({
                     items: items.slice(0, 20),
                     filteredItems: items,
-                    resultsCount: appConfig.goods.items.length,
+                    resultsCount: appConfig.assets.items.length,
 					showProgress: false
                 });
             })

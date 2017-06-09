@@ -15,8 +15,7 @@ class ListItem extends Component {
         return (
 			<div className="listItem">
 				<div className="phone" onClick={this.clickOnItem.bind(this)}>
-					{this.props.item.name}<br/> 
-					Price: {((+this.props.item.price).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ")}
+					{this.props.item.name} - {((+this.props.item.quantity).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ")}
 				</div>
 			</div>
         );
