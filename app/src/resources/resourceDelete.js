@@ -18,7 +18,7 @@ class ResourceDelete extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/departments/delete', {
+        fetch(appConfig.url + 'api/goods/delete', {
             method: 'post',
             body: JSON.stringify({
                 id: this.props.routeParams.id,
@@ -32,8 +32,8 @@ class ResourceDelete extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.text) {
-					appConfig.departments.refresh = true;
-					hashHistory.push("/departments");
+					appConfig.resources.refresh = true;
+					hashHistory.push("/resources");
 				} else {
 					this.setState({
 						serverError: true,

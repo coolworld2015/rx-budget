@@ -15,8 +15,7 @@ class ResourceAdd extends Component {
 	
     addItem() {
         if (this.state.name == '' || this.state.name == undefined ||
-            this.state.phone == '' || this.state.phone == undefined ||
-            this.state.address == '' || this.state.address == undefined ||
+            this.state.price == '' || this.state.price == undefined ||
             this.state.description == '' || this.state.description == undefined) {
             this.setState({
                 invalidValue: true
@@ -28,14 +27,14 @@ class ResourceAdd extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/departments/add', {
+        fetch(appConfig.url + 'api/goods/add', {
             method: 'post',
             body: JSON.stringify({
                 id: + new Date,
                 name: this.state.name,
-				phone: this.state.phone,
-				address: this.state.address,
-				sum: 0,
+                price: this.state.price,
+                quantity: '0.00',
+                store: false,
                 description: this.state.description,
 				authorization: appConfig.access_token
             }),
@@ -47,8 +46,8 @@ class ResourceAdd extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.id) {
-					appConfig.departments.refresh = true;
-					hashHistory.push("/departments");
+					appConfig.resources.refresh = true;
+					hashHistory.push("/resources");
 				} else {
 					this.setState({
 						serverError: true,
@@ -116,25 +115,12 @@ class ResourceAdd extends Component {
 							className="input"
 							onChange={(event) => {
 								this.setState({
-									phone: event.target.value,
+									price: event.target.value,
 									invalidValue: false
 								})
 							}}
-							placeholder="Phone"/>
+							placeholder="Price"/>
 					</div>		
-					
-					<hr className="splitter" />
-					<div>
-						<input type="text" 
-							className="input"
-							onChange={(event) => {
-								this.setState({
-									address: event.target.value,
-									invalidValue: false
-								})
-							}}
-							placeholder="Address"/>
-					</div>
 					
 					<hr className="splitter" />
 					<div>

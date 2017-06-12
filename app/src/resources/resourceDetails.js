@@ -9,7 +9,7 @@ class ResourceDetails extends Component {
 		this.state = {
 			id: appConfig.resources.item.id,
 			name: appConfig.resources.item.name,
-			price: appConfig.resources.item.price,
+			price: (+appConfig.resources.item.price).toFixed(2),
 			quantity: appConfig.resources.item.quantity,
 			store: appConfig.resources.item.store,
 			description: appConfig.resources.item.description,
@@ -23,7 +23,7 @@ class ResourceDetails extends Component {
             hashHistory.push("/resources");
 		} else {			
 			this.refs.name.value = appConfig.resources.item.name;
-			this.refs.price.value = appConfig.resources.item.price;
+			this.refs.price.value = (+appConfig.resources.item.price).toFixed(2),
 			this.refs.description.value = appConfig.resources.item.description;
 		}
 	}
@@ -31,8 +31,7 @@ class ResourceDetails extends Component {
     updateItem() {
         if (this.state.name == '' || this.state.name == undefined ||
             this.state.price == '' || this.state.price == undefined ||
-            this.state.description == '' || 
-			this.state.description == undefined) {
+            this.state.description == '' || this.state.description == undefined) {
             this.setState({
                 invalidValue: true
             });
