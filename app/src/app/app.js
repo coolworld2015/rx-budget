@@ -30,6 +30,11 @@ class App extends Component {
 				items: [],
 				item: {}
             },			
+			resources: {
+				refresh: true,
+				items: [],
+				item: {}
+            },			
 			goods: {
 				refresh: true,
 				items: [],

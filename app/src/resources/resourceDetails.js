@@ -1,59 +1,41 @@
 import React, {Component} from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TouchableHighlight,
-    ListView,
-    ScrollView,
-    ActivityIndicator,
-    TabBarIOS,
-    NavigatorIOS,
-    TextInput,
-	BackAndroid,
-	Alert
-} from 'react-native';
+import {hashHistory} from 'react-router';
+import Title from '../app/title';
 
 class ResourceDetails extends Component {
     constructor(props) {
         super(props);
 		
-		BackAndroid.addEventListener('hardwareBackPress', () => {
-			if (this.props.navigator) {
-				this.props.navigator.pop();
-			}
-			return true;
-		});			
-		
 		this.state = {
-			serverError: false
-		}	
+			id: appConfig.resources.item.id,
+			name: appConfig.resources.item.name,
+			phone: appConfig.resources.item.phone,
+			address: appConfig.resources.item.address,
+			sum: appConfig.resources.item.sum,
+			sumShow: ((+appConfig.resources.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
+			description: appConfig.resources.item.description,
+			invalidValue: false
+		}
 		
-		if (props.data) {
-			this.state = {
-				id: props.data.id,
-				name: props.data.name,
-				price: ((+props.data.price).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
-				quantity: props.data.quantity,
-				store: props.data.store,
-				description: props.data.description,
-				showProgress: false
-			};
-		}		
     }
 	
-	isNumber(n) {
-		return !isNaN(parseFloat(n)) && isFinite(n);
+	componentDidMount() {
+		if (!appConfig.resources.item.id) {
+            hashHistory.push("/resources");
+		} else {			
+			this.refs.name.value = appConfig.resources.item.name;
+			this.refs.phone.value = appConfig.resources.item.phone;
+			this.refs.address.value = appConfig.resources.item.address;
+			this.refs.sumShow.value = ((+appConfig.resources.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+			this.refs.description.value = appConfig.resources.item.description;
+		}
 	}
-	
+
     updateItem() {
-        if (this.state.name == '' ||
-            this.state.price == '' ||
-            this.state.description == undefined ||
-			
-			this.isNumber(this.state.price) != true) {
+        if (this.state.name == '' || this.state.name == undefined ||
+            this.state.phone == '' || this.state.phone == undefined ||
+            this.state.description == '' || 
+			this.state.description == undefined) {
             this.setState({
                 invalidValue: true
             });
@@ -61,18 +43,17 @@ class ResourceDetails extends Component {
         }
 
         this.setState({
-            showProgress: true,
-			bugANDROID: ' '
+            showProgress: true
         });
 
-        fetch(appConfig.url + 'api/goods/update', {
+        fetch(appConfig.url + 'api/resources/update', {
             method: 'post',
             body: JSON.stringify({
                 id: this.state.id,
                 name: this.state.name,
-                price: this.state.price,
-				quantity: this.state.quantity,
-				store: this.state.store,
+                phone: this.state.phone,
+                address: this.state.address,
+                sum: this.state.sum,
                 description: this.state.description,
 				authorization: appConfig.access_token
             }),
@@ -83,322 +64,148 @@ class ResourceDetails extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				if (responseData) {
-					appConfig.goods.refresh = true;
-					this.props.navigator.pop();
+				if (responseData.id) {
+					appConfig.departments.refresh = true;
+					hashHistory.push("/resources");
 				} else {
 					this.setState({
-						badCredentials: true
+						serverError: true,
+						showProgress: false
 					});
 				}
             })
             .catch((error)=> {
                 this.setState({
-                    serverError: true
+                    serverError: true,
+					showProgress: false
                 });
-            })
-            .finally(()=> {
-                this.setState({
-                    showProgress: false
-                });
-            });
+            }) 
     }
-
-    deleteItemDialog() {
-		Alert.alert(
-			appConfig.language.delrec,
-			appConfig.language.conform + this.state.name + '?',
-			[
-				{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-				{
-					text: 'OK', onPress: () => {
-					this.deleteItem();
-					}
-				},
-			]
-		);	
+	
+	goDelete() {
+		hashHistory.push("/resource-delete/" + this.state.id + "/" + this.state.name);
 	}
 	
-    deleteItem() {		
-        this.setState({
-            showProgress: true,
-			bugANDROID: ' '
-        });
-		
-        fetch(appConfig.url + 'api/goods/delete', {
-            method: 'post',
-            body: JSON.stringify({
-                id: this.state.id,
-				authorization: appConfig.access_token
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-			.then((response)=> response.json())
-            .then((responseData)=> {
-				console.log(responseData);
-				if (responseData.text) {
-					appConfig.goods.refresh = true;
-					this.props.navigator.pop();
-				} else {
-					this.setState({
-						badCredentials: true
-					});
-				}
-            })
-            .catch((error)=> {
-                console.log(error);
-                this.setState({
-                    serverError: true
-                });
-            })
-            .finally(()=> {
-                this.setState({
-                    showProgress: false
-                });
-            });
-
-    }
-    
 	goBack() {
-		this.props.navigator.pop();
+		hashHistory.push("/resources");
 	}
 	
     render() {
-        var errorCtrl = <View />;
+        var errorCtrl, validCtrl, loading;
 
         if (this.state.serverError) {
-            errorCtrl = <Text style={styles.error}>
-                Something went wrong.
-            </Text>;
+            errorCtrl = <div className="error">
+				Something went wrong.
+			</div>;
         }
-
-        var validCtrl = <View />;
-
+		
         if (this.state.invalidValue) {
-            validCtrl = <Text style={styles.error}>
-                Value required - please provide.
-            </Text>;
+            validCtrl = <div className="valid">
+				Value required - please provide.
+				<br/><br/>
+			</div>;
         }
-
-        return (
-            <View style={{flex: 1, justifyContent: 'center', backgroundColor: 'white'}}>
-				<View style={{
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					backgroundColor: '#48BBEC',
-					borderWidth: 0,
-					borderColor: 'whitesmoke'
-				}}>
-					<View>
-						<TouchableHighlight
-							onPress={()=> this.goBack()}
-							underlayColor='#48BBEC'
-						>
-							<Text style={{
-								fontSize: 16,
-								textAlign: 'center',
-								margin: 14,
-								fontWeight: 'bold',
-								color: 'white'
-							}}>
-								{appConfig.language.back}
-							</Text>
-						</TouchableHighlight>	
-					</View>
-					<View style={{flex:1,flexDirection:'column', flexWrap:'wrap'}}>
-						<TouchableHighlight
-							underlayColor='#ddd'
-						>
-							<Text style={{
-								fontSize: 20,
-								textAlign: 'center',
-								margin: 10,
-								fontWeight: 'bold',
-								color: 'white'
-							}}>
-								{this.state.name}
-							</Text>
-						</TouchableHighlight>	
-					</View>						
-					<View>
-						<TouchableHighlight
-							onPress={()=> this.deleteItemDialog()}
-							underlayColor='#48BBEC'
-						>
-							<Text style={{
-								fontSize: 16,
-								textAlign: 'center',
-								margin: 14,
-								fontWeight: 'bold',
-								color: 'white'
-							}}>
-								{appConfig.language.delete}
-							</Text>
-						</TouchableHighlight>	
-					</View>
-				</View>
 				
-				<ScrollView keyboardShouldPersistTaps={true}>
-					<View style={{
-						flex: 1,
-						padding: 10,
-						paddingBottom: 80,
-						justifyContent: 'flex-start',
-						backgroundColor: 'white'
-					}}>
-						<TextInput
-							underlineColorAndroid='rgba(0,0,0,0)'
-							multiline={true}
-							editable={false}
-							style={styles.loginInputBold}
-							value={this.state.name}
-							placeholder={appConfig.language.name}>						
-						</TextInput>	
-						
-						<TextInput
-							underlineColorAndroid='rgba(0,0,0,0)'
-							onChangeText={(text)=> this.setState({
-								price: text,
-								invalidValue: false
-							})}
-							style={styles.loginInput}
-							value={this.state.price}
-							placeholder={appConfig.language.price}>
-						</TextInput>
-
-						<TextInput
-							underlineColorAndroid='rgba(0,0,0,0)'
-							multiline={true}
-							onChangeText={(text)=> this.setState({
-								description: text,
-								invalidValue: false
-							})}
-							style={styles.loginInput1}
-							value={this.state.description}
-							placeholder={appConfig.language.description}>
-						</TextInput>
-
-						{validCtrl}
-
-						<TouchableHighlight
-							onPress={()=> this.updateItem()}
-
-							style={styles.button}>
-							<Text style={styles.buttonText}>{appConfig.language.submit}</Text>
-						</TouchableHighlight>
-						
-						{errorCtrl}
-						
-						<ActivityIndicator
-							animating={this.state.showProgress}
-							size="large"
-							style={styles.loader}
-						/>
-						
-						<Text>{this.state.bugANDROID}</Text>
-					</View>
-				</ScrollView>
-			</View>
+        if (this.state.showProgress) {
+            loading = <div className="loading">
+                <span>Loading...</span>
+            </div>;
+        }
+		
+        return (
+			<div>
+				<center>				
+                <div className="header">
+					{this.state.name}
+				</div>
+				
+				<div className="form">
+					<div>
+						<input type="text" 
+							className="input"
+							ref="name"
+							onChange={(event) => {
+								this.setState({
+									name: event.target.value,
+								})
+							}}
+							placeholder="Name"/>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							ref="phone"
+							onChange={(event) => {
+								this.setState({
+									phone: event.target.value,
+								})
+							}}
+							placeholder="Phone"/>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							ref="address"
+							onChange={(event) => {
+								this.setState({
+									address: event.target.value,
+								})
+							}}
+							placeholder="Address"/>
+					</div>		
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							ref="description"
+							onChange={(event) => {
+								this.setState({
+									description: event.target.value,
+								})
+							}}
+							placeholder="Description"/>
+					</div>
+ 		
+				
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							readOnly={true}
+							ref="sumShow"
+							placeholder="Description"/>
+					</div>
+				</div>
+				
+				{errorCtrl}
+				{loading}
+				
+				<div>
+					<br/>
+					{validCtrl}
+					
+					<button onClick={this.updateItem.bind(this)} className="button">
+						Submit
+					</button>					
+					
+					<button onClick={this.goDelete.bind(this)} className="button">
+						Delete
+					</button>			
+					<br/>					
+					<br/>					
+					<button onClick={this.goBack.bind(this)} className="button">
+						Back
+					</button>
+				</div>		
+				</center>				
+			</div>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    itemTextBold: {
-		fontSize: 20,
-		textAlign: 'left',
-		margin: 5,
-		fontWeight: 'bold',
-		color: 'black'
-    },    
-	itemText: {
-		fontSize: 20,
-		textAlign: 'left',
-		margin: 5,
-		marginLeft: 2,
-		color: 'black'
-    },
-    countHeader: {
-        fontSize: 16,
-        textAlign: 'center',
-        padding: 15,
-        backgroundColor: '#F5FCFF',
-    },
-    countFooter: {
-        fontSize: 16,
-        textAlign: 'center',
-        padding: 10,
-        borderColor: '#D7D7D7',
-        backgroundColor: 'whitesmoke'
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 20,
-    },
-    loginInput: {
-        height: 50,
-        marginTop: 10,
-        padding: 4,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 5,
-        color: 'black'
-    },
-	loginInputBold: {
-        height: 50,
-        marginTop: 10,
-        padding: 4,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 5,
-        color: 'black',
-		fontWeight: 'bold'
-    },	
-    loginInput1: {
-        height: 100,
-        marginTop: 10,
-        padding: 4,
-        fontSize: 18,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 5,
-        color: 'black'
-    },	
-    button: {
-        height: 50,
-        backgroundColor: '#48BBEC',
-        borderColor: '#48BBEC',
-        alignSelf: 'stretch',
-        marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 20,
-		fontWeight: 'bold'
-    },
-    loader: {
-        marginTop: 20
-    },
-    error: {
-        color: 'red',
-        paddingTop: 10,
-        textAlign: 'center'
-    },
-    img: {
-        height: 95,
-        width: 75,
-        borderRadius: 20,
-        margin: 20
-    }
-});
 
 export default ResourceDetails;

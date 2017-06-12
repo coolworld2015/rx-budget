@@ -36,6 +36,9 @@ import InputDelete from '../inputs/inputDelete';
 import Assets from '../assets/assets';
 
 import Resources from '../resources/resources';
+import ResourceAdd from '../resources/resourceAdd';
+import ResourceDetails from '../resources/resourceDetails';
+import ResourceDelete from '../resources/resourceDelete';
 
 export default (
     <Route path="/" component={Root}>
@@ -86,5 +89,10 @@ export default (
 		<Route path="assets" component={Assets}/>
 		
 		<Route path="resources" component={Resources}/>
+		<Route path="resource-add" component={ResourceAdd}/>
+		<Route path="resource-details" component={ResourceDetails}/>
+		<Route path="resource-delete">
+            <Route path=":id/:name" component={ResourceDelete}/>
+        </Route>
     </Route>
 );

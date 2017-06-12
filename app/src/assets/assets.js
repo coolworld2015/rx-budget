@@ -119,21 +119,9 @@ class Assets extends Component {
             return (
                 <ListItem
                     key={item.id}
-                    item={item}
-                    clickHandle={this.clickHandle.bind(this)}/>
+                    item={item}/>
             )
         })
-    }
-	
-    clickHandle(item) {
-		appConfig.audit.item = {
-			id: item.id,
-			name: item.name,
-			date: item.date,
-			ip: item.ip,
-			description: item.description
-		};
-        hashHistory.push("/audit-details/");
     }
 	
 	goToMain() {

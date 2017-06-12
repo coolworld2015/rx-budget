@@ -123,14 +123,18 @@ class Resources extends Component {
     }
 	
     clickHandle(item) {
-		appConfig.audit.item = {
+		appConfig.resources.item = {
 			id: item.id,
 			name: item.name,
 			date: item.date,
 			ip: item.ip,
 			description: item.description
 		};
-        hashHistory.push("/audit-details/");
+        hashHistory.push("/resource-details/");
+    }
+	
+	goAdd() {
+        hashHistory.push("/resource-add/");
     }
 	
 	goToMain() {
@@ -180,6 +184,11 @@ class Resources extends Component {
 					<hr/>
 					{errorCtrl}
 					<br/>
+					<button className="button"
+						onClick={this.goAdd.bind(this)}>
+						Add
+					</button>
+	
 					<button className="button"
 						onClick={this.goToMain.bind(this)}>
 						Back
