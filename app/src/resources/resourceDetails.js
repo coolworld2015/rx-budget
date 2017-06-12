@@ -9,10 +9,9 @@ class ResourceDetails extends Component {
 		this.state = {
 			id: appConfig.resources.item.id,
 			name: appConfig.resources.item.name,
-			phone: appConfig.resources.item.phone,
-			address: appConfig.resources.item.address,
-			sum: appConfig.resources.item.sum,
-			sumShow: ((+appConfig.resources.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
+			price: appConfig.resources.item.price,
+			quantity: appConfig.resources.item.quantity,
+			store: appConfig.resources.item.store,
 			description: appConfig.resources.item.description,
 			invalidValue: false
 		}
@@ -24,16 +23,14 @@ class ResourceDetails extends Component {
             hashHistory.push("/resources");
 		} else {			
 			this.refs.name.value = appConfig.resources.item.name;
-			this.refs.phone.value = appConfig.resources.item.phone;
-			this.refs.address.value = appConfig.resources.item.address;
-			this.refs.sumShow.value = ((+appConfig.resources.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+			this.refs.price.value = appConfig.resources.item.price;
 			this.refs.description.value = appConfig.resources.item.description;
 		}
 	}
 
     updateItem() {
         if (this.state.name == '' || this.state.name == undefined ||
-            this.state.phone == '' || this.state.phone == undefined ||
+            this.state.price == '' || this.state.price == undefined ||
             this.state.description == '' || 
 			this.state.description == undefined) {
             this.setState({
@@ -46,14 +43,14 @@ class ResourceDetails extends Component {
             showProgress: true
         });
 
-        fetch(appConfig.url + 'api/resources/update', {
+        fetch(appConfig.url + 'api/goods/update', {
             method: 'post',
             body: JSON.stringify({
                 id: this.state.id,
                 name: this.state.name,
-                phone: this.state.phone,
-                address: this.state.address,
-                sum: this.state.sum,
+                price: this.state.price,
+                quantity: this.state.quantity,
+                store: this.state.store,
                 description: this.state.description,
 				authorization: appConfig.access_token
             }),
@@ -65,7 +62,7 @@ class ResourceDetails extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 				if (responseData.id) {
-					appConfig.departments.refresh = true;
+					appConfig.resources.refresh = true;
 					hashHistory.push("/resources");
 				} else {
 					this.setState({
@@ -136,27 +133,14 @@ class ResourceDetails extends Component {
 					<div>
 						<input type="text" 
 							className="input"
-							ref="phone"
+							ref="price"
 							onChange={(event) => {
 								this.setState({
-									phone: event.target.value,
+									price: event.target.value,
 								})
 							}}
-							placeholder="Phone"/>
-					</div>
-					
-					<hr className="splitter" />
-					<div>
-						<input type="text" 
-							className="input"
-							ref="address"
-							onChange={(event) => {
-								this.setState({
-									address: event.target.value,
-								})
-							}}
-							placeholder="Address"/>
-					</div>		
+							placeholder="Price"/>
+					</div>	
 					
 					<hr className="splitter" />
 					<div>
@@ -168,16 +152,6 @@ class ResourceDetails extends Component {
 									description: event.target.value,
 								})
 							}}
-							placeholder="Description"/>
-					</div>
- 		
-				
-					<hr className="splitter" />
-					<div>
-						<input type="text" 
-							className="input"
-							readOnly={true}
-							ref="sumShow"
 							placeholder="Description"/>
 					</div>
 				</div>

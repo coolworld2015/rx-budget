@@ -34,11 +34,6 @@ class App extends Component {
 				refresh: true,
 				items: [],
 				item: {}
-            },			
-			goods: {
-				refresh: true,
-				items: [],
-				item: {}
             },
 			projects: {
                 refresh: true,

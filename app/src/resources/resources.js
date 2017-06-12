@@ -9,8 +9,8 @@ class Resources extends Component {
 
         this.state = {
             showProgress: false,
-            items: appConfig.goods.items.slice(0, 20),
-			filteredItems: appConfig.goods.items,
+            items: appConfig.resources.items.slice(0, 20),
+			filteredItems: appConfig.resources.items,
 			resultsCount: 0,
             recordsCount: 20,
             positionY: 0
@@ -19,11 +19,11 @@ class Resources extends Component {
 	
 	componentDidMount() {
 		this.setState({
-            resultsCount: appConfig.goods.items.length
+            resultsCount: appConfig.resources.items.length
         });
 		
-		if (appConfig.goods.refresh) {
-            appConfig.goods.refresh = false;
+		if (appConfig.resources.refresh) {
+            appConfig.resources.refresh = false;
 			this.getItems();
 		}
 	}
@@ -36,8 +36,6 @@ class Resources extends Component {
 		items = this.state.filteredItems.slice(0, recordsCount);
 		
 		if (position > positionY) {
-			console.log(items.length);
-			console.log(position);
             this.setState({
                 items: items,
                 recordsCount: recordsCount + 10,
@@ -48,7 +46,7 @@ class Resources extends Component {
 
     onChangeText(e) {
 		var text = e.target.value;
-        var arr = [].concat(appConfig.goods.items);
+        var arr = [].concat(appConfig.resources.items);
         var items = arr.filter((el) => el.name.toLowerCase().indexOf(text.toLowerCase()) != -1);
         this.setState({
             items: items,
@@ -61,9 +59,9 @@ class Resources extends Component {
 	clearSearchQuery() {
 		this.refs.search.value = '';
 		this.setState({
-			items: appConfig.goods.items.slice(0, 20),
-            resultsCount: appConfig.goods.items.length,
-            filteredItems: appConfig.goods.items,
+			items: appConfig.resources.items.slice(0, 20),
+            resultsCount: appConfig.resources.items.length,
+            filteredItems: appConfig.resources.items,
 			positionY: 0,
 			recordsCount: 20
 		});
@@ -84,11 +82,11 @@ class Resources extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-				appConfig.goods.items = responseData.sort(this.sort);
+				appConfig.resources.items = responseData.sort(this.sort);
                 this.setState({
                     items: (responseData.sort(this.sort)).slice(0, 20),
                     filteredItems: responseData.sort(this.sort),
-                    resultsCount: appConfig.goods.items.length,
+                    resultsCount: appConfig.resources.items.length,
 					showProgress: false
                 });
             })
@@ -126,8 +124,9 @@ class Resources extends Component {
 		appConfig.resources.item = {
 			id: item.id,
 			name: item.name,
-			date: item.date,
-			ip: item.ip,
+			price: item.price,
+			quantity: item.quantity,
+			store: item.store,
 			description: item.description
 		};
         hashHistory.push("/resource-details/");
