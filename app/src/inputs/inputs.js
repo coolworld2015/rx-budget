@@ -124,12 +124,18 @@ class Inputs extends Component {
     clickHandle(item) {
 		appConfig.inputs.item = {
 			id: item.id,
-			name: item.name,
+			invoiceID: item.invoiceID,
+			date: item.date,
+			project: item.project,
+			projectID: item.projectID,			
 			department: item.department,
-			departmentID: item.departmentID,
-			phone: item.phone,
-			address: item.address,
-			sum: item.sum,
+			departmentID: item.departmentID,			
+			employee: item.employee,
+			employeeID: item.employeeID,
+			product: item.product,
+			price: item.price,
+			quantity: item.quantity,
+			total: item.total,
 			description: item.description
 		};
         hashHistory.push("/input-details/");

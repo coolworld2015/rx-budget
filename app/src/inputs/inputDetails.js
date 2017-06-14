@@ -7,16 +7,8 @@ class InputDetails extends Component {
         super(props);
 		
 		this.state = {
-			id: appConfig.inputs.item.id,
-			name: appConfig.inputs.item.name,
-			department: appConfig.inputs.item.department,
-			departmentID: appConfig.inputs.item.departmentID,
-			phone: appConfig.inputs.item.phone,
-			address: appConfig.inputs.item.address,
-			sum: appConfig.inputs.item.sum,
-			sumShow: ((+appConfig.inputs.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 "),
-			description: appConfig.inputs.item.description,
-			invalidValue: false
+			invalidValue: false,
+			project: appConfig.inputs.item.project
 		}
 		
     }
@@ -25,69 +17,19 @@ class InputDetails extends Component {
 		if (!appConfig.inputs.item.id) {
             hashHistory.push("/inputs");
 		} else {			
-			this.refs.name.value = appConfig.inputs.item.name;
-			this.refs.department.value = appConfig.inputs.item.department;
-			this.refs.phone.value = appConfig.inputs.item.phone;
-			this.refs.address.value = appConfig.inputs.item.address;
-			this.refs.sumShow.value = ((+appConfig.inputs.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
-			this.refs.description.value = appConfig.inputs.item.description;
+			this.refs.invoiceID.value = 'InvoiceID: ' + appConfig.inputs.item.invoiceID;
+			this.refs.date.value = 'Date: ' + appConfig.inputs.item.date;
+			this.refs.project.value = 'Project: ' + appConfig.inputs.item.project;
+			this.refs.department.value = 'Department: ' + appConfig.inputs.item.department;
+			this.refs.employee.value = 'Employee: ' + appConfig.inputs.item.employee;
+			this.refs.product.value = 'Resourse: ' + appConfig.inputs.item.product;
+			this.refs.price.value = 'Price: ' + ((+appConfig.inputs.item.price).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+			this.refs.quantity.value = 'Quantity: ' + ((+appConfig.inputs.item.quantity).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
+			this.refs.description.value = 'Description: ' + appConfig.inputs.item.description;
+			this.refs.total.value = 'Total: ' + ((+appConfig.inputs.item.total).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
 		}
 	}
 
-    updateItem() {
-        if (this.state.name == '' || this.state.name == undefined ||
-			this.state.departmentID == undefined ||
-            this.state.phone == '' || this.state.phone == undefined ||
-            this.state.description == '' || 
-			this.state.description == undefined) {
-            this.setState({
-                invalidValue: true
-            });
-            return;
-        }
-
-        this.setState({
-            showProgress: true
-        });
-
-        fetch(appConfig.url + 'api/inputs/update', {
-            method: 'post',
-            body: JSON.stringify({
-                id: this.state.id,
-                name: this.state.name,
-				department: this.state.department,
-				departmentID: this.state.departmentID,
-                phone: this.state.phone,
-                address: this.state.address,
-                sum: this.state.sum,
-                description: this.state.description,
-				authorization: appConfig.access_token
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-				if (responseData.id) {
-					appConfig.inputs.refresh = true;
-					hashHistory.push("/inputs");
-				} else {
-					this.setState({
-						serverError: true,
-						showProgress: false
-					});
-				}
-            })
-            .catch((error)=> {
-                this.setState({
-                    serverError: true,
-					showProgress: false
-                });
-            }) 
-    }
-	
 	goDelete() {
 		hashHistory.push("/input-delete/" + this.state.id + "/" + this.state.name);
 	}
@@ -122,20 +64,36 @@ class InputDetails extends Component {
 			<div>
 				<center>				
                 <div className="header">
-					{this.state.name}
+					{this.state.project}
 				</div>
 				
 				<div className="form">
 					<div>
 						<input type="text" 
 							className="input"
-							ref="name"
-							onChange={(event) => {
-								this.setState({
-									name: event.target.value,
-								})
-							}}
-							placeholder="Name"/>
+							ref="invoiceID"
+							readOnly={true}
+							placeholder="invoiceID"/>
+					</div>
+					
+					<hr className="splitter" />						
+					
+					<div>
+						<input type="text" 
+							className="input"
+							ref="date"
+							readOnly={true}
+							placeholder="date"/>
+					</div>
+					
+					<hr className="splitter" />							
+					
+					<div>
+						<input type="text" 
+							className="input"
+							ref="project"
+							readOnly={true}
+							placeholder="project"/>
 					</div>
 					
 					<hr className="splitter" />					
@@ -143,45 +101,52 @@ class InputDetails extends Component {
 						<input type="text" 
 							className="input"
 							ref="department"
-							placeholder="Name"/>
+							readOnly={true}
+							placeholder="department"/>
 					</div>
 					
 					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"
-							ref="phone"
-							onChange={(event) => {
-								this.setState({
-									phone: event.target.value,
-								})
-							}}
-							placeholder="Phone"/>
-					</div>
+							ref="employee"
+							readOnly={true}
+							placeholder="employee"/>
+					</div>			
 					
 					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"
-							ref="address"
-							onChange={(event) => {
-								this.setState({
-									address: event.target.value,
-								})
-							}}
-							placeholder="Address"/>
+							ref="product"
+							readOnly={true}
+							placeholder="product"/>
 					</div>		
 					
 					<hr className="splitter" />
 					<div>
 						<input type="text" 
 							className="input"
+							ref="price"
+							readOnly={true}
+							placeholder="price"/>
+					</div>			
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
+							ref="quantity"
+							readOnly={true}
+							placeholder="quantity"/>
+					</div>
+					
+					<hr className="splitter" />
+					<div>
+						<input type="text" 
+							className="input"
 							ref="description"
-							onChange={(event) => {
-								this.setState({
-									description: event.target.value,
-								})
-							}}
+							readOnly={true}
 							placeholder="Description"/>
 					</div>
  		
@@ -190,9 +155,9 @@ class InputDetails extends Component {
 					<div>
 						<input type="text" 
 							className="input"
+							ref="total"
 							readOnly={true}
-							ref="sumShow"
-							placeholder="Description"/>
+							placeholder="total"/>
 					</div>
 				</div>
 				
@@ -203,7 +168,7 @@ class InputDetails extends Component {
 					<br/>
 					{validCtrl}
 					
-					<button onClick={this.updateItem.bind(this)} className="button">
+					<button onClick={this.goBack.bind(this)} className="button">
 						Submit
 					</button>					
 					

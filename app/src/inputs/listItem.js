@@ -15,8 +15,9 @@ class ListItem extends Component {
         return (
 			<div className="listItem">
 				<div className="phone" onClick={this.clickOnItem.bind(this)}>
-					{this.props.item.name} - {this.props.item.department}<br/> 
-					Total: {((+this.props.item.sum).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ")}
+					{this.props.item.invoiceID} - {this.props.item.project} - {(this.props.item.date).split(' ')[0]}<br/>
+					{this.props.item.description}<br/> 
+					Total: {((+this.props.item.total).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ")}
 				</div>
 			</div>
         );
