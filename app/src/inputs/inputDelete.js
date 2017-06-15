@@ -21,16 +21,16 @@ class InputDelete extends Component {
 			productID: appConfig.inputs.item.productID,
 			price: appConfig.inputs.item.price,
 			quantity: appConfig.inputs.item.quantity,
+			total: appConfig.inputs.item.total,
 			description: appConfig.inputs.item.description
 		}
-		console.log(this.state)
     }
 	
     deleteItem() {
         this.setState({
             showProgress: true
         });
-
+console.log(this.state.total)
         fetch(appConfig.url + 'api/inputs/delete', {
             method: 'post',
             body: JSON.stringify({
