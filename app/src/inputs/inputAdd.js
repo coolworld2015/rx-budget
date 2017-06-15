@@ -111,13 +111,17 @@ class InputAdd extends Component {
 				let items = responseData.sort(this.sort);
 				let options = [<option key='-1'>Select employee</option>];
 				
+				/*
 				for (var i = 0; i < items.length; i++) {
 					options.push(
 						<option key={i} value={items[i].id}>{items[i].name}</option>
 					);
 				}
+				*/
+				
 				this.setState({
 					employees: options,
+					arrEmployees: items,
 					showProgress: false
 				});
             })
@@ -333,10 +337,22 @@ class InputAdd extends Component {
 					<div>
 						<select className="input"
 							onChange={(event) => {
+								let arrEmployees = [].concat(this.state.arrEmployees);
+								let employees = arrEmployees.filter((el) => el.departmentID == event.target.value);
+								console.log(employees)	
+								
+								let options = [<option key='-1'>Select employee</option>];
+								for (var i = 0; i < employees.length; i++) {
+									options.push(
+										<option key={i} value={employees[i].id}>{employees[i].name}</option>
+									);
+								}
+								
 								this.setState({
 									departmentName: event.target.children[event.target.selectedIndex].label,
 									departmentID: event.target.value,
-									invalidValue: false
+									invalidValue: false,
+									employees: options
 								})
 							}}>
 							{this.state.departments}
