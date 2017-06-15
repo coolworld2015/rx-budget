@@ -99,16 +99,16 @@ class Inputs extends Component {
             })
     }
 	
-	sort(a, b) {
-		var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
-		if (nameA < nameB) {
-			return -1
-		}
-		if (nameA > nameB) {
-			return 1
-		}
-		return 0;
-	};
+    sort(a, b) {
+        var nameA = +a.invoiceID.toLowerCase(), nameB = +b.invoiceID.toLowerCase();
+        if (nameA < nameB) {
+            return 1
+        }
+        if (nameA > nameB) {
+            return -1
+        }
+        return 0;
+    }
 		
     makeItems() {
         return this.state.items.map((item) => {
@@ -133,6 +133,7 @@ class Inputs extends Component {
 			employee: item.employee,
 			employeeID: item.employeeID,
 			product: item.product,
+			productID: item.productID,
 			price: item.price,
 			quantity: item.quantity,
 			total: item.total,

@@ -8,7 +8,20 @@ class InputDetails extends Component {
 		
 		this.state = {
 			invalidValue: false,
-			project: appConfig.inputs.item.project
+			id: appConfig.inputs.item.id,
+			invoiceID: appConfig.inputs.item.invoiceID,
+			date: appConfig.inputs.item.date,
+			project: appConfig.inputs.item.project,
+			projectID: appConfig.inputs.item.projectID,
+			department: appConfig.inputs.item.department,
+			departmentID: appConfig.inputs.item.departmentID,
+			employee: appConfig.inputs.item.employee,
+			employeeID: appConfig.inputs.item.employeeID,
+			product: appConfig.inputs.item.product,
+			productID: appConfig.inputs.item.productID,
+			price: appConfig.inputs.item.price,
+			quantity: appConfig.inputs.item.quantity,
+			description: appConfig.inputs.item.description
 		}
 		
     }
@@ -20,9 +33,13 @@ class InputDetails extends Component {
 			this.refs.invoiceID.value = 'InvoiceID: ' + appConfig.inputs.item.invoiceID;
 			this.refs.date.value = 'Date: ' + appConfig.inputs.item.date;
 			this.refs.project.value = 'Project: ' + appConfig.inputs.item.project;
+			//this.refs.projectID.value = 'Project: ' + appConfig.inputs.item.projectID;
 			this.refs.department.value = 'Department: ' + appConfig.inputs.item.department;
+			//this.refs.departmentID.value = 'Department: ' + appConfig.inputs.item.departmentID;
 			this.refs.employee.value = 'Employee: ' + appConfig.inputs.item.employee;
+			//this.refs.employeeID.value = 'Employee: ' + appConfig.inputs.item.employeeID;
 			this.refs.product.value = 'Resourse: ' + appConfig.inputs.item.product;
+			//this.refs.productID.value = 'Resourse: ' + appConfig.inputs.item.productID;
 			this.refs.price.value = 'Price: ' + ((+appConfig.inputs.item.price).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
 			this.refs.quantity.value = 'Quantity: ' + ((+appConfig.inputs.item.quantity).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ");
 			this.refs.description.value = 'Description: ' + appConfig.inputs.item.description;
@@ -31,7 +48,7 @@ class InputDetails extends Component {
 	}
 
 	goDelete() {
-		hashHistory.push("/input-delete/" + this.state.id + "/" + this.state.name);
+		hashHistory.push("/input-delete/" + this.state.id + "/" + this.state.invoiceID);
 	}
 	
 	goBack() {

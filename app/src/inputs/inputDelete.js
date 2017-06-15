@@ -7,9 +7,21 @@ class InputDelete extends Component {
         super(props);
 		
 		this.state = {
-			id: this.props.routeParams.id,
-			name: this.props.routeParams.name,
-			showProgress: false
+			showProgress: false,
+			id: appConfig.inputs.item.id,
+			invoiceID: appConfig.inputs.item.invoiceID,
+			date: appConfig.inputs.item.date,
+			project: appConfig.inputs.item.project,
+			projectID: appConfig.inputs.item.projectID,
+			department: appConfig.inputs.item.department,
+			departmentID: appConfig.inputs.item.departmentID,
+			employee: appConfig.inputs.item.employee,
+			employeeID: appConfig.inputs.item.employeeID,
+			product: appConfig.inputs.item.product,
+			productID: appConfig.inputs.item.productID,
+			price: appConfig.inputs.item.price,
+			quantity: appConfig.inputs.item.quantity,
+			description: appConfig.inputs.item.description
 		}
     }
 	
@@ -21,7 +33,21 @@ class InputDelete extends Component {
         fetch(appConfig.url + 'api/inputs/delete', {
             method: 'post',
             body: JSON.stringify({
-                id: this.props.routeParams.id,
+                id: this.state.id,
+				date: this.state.date,
+				department: this.state.department,
+				departmentID: this.state.departmentID,
+				description: this.state.description,
+				employee: this.state.employee,
+				employeeID: this.state.employeeID,
+				invoiceID: this.state.invoiceID,
+				price: this.state.price,
+				product: this.state.product,
+				productID: this.state.productID,
+				project: this.state.project,
+				projectID: this.state.projectID,
+				quantity: this.state.quantity,
+				total: this.state.total,
 				authorization: appConfig.access_token
             }),
             headers: {

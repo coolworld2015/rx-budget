@@ -173,12 +173,27 @@ class InputAdd extends Component {
         return 0;
     }
 	
+	isNumber(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+	
     addItem() {
-        if (this.state.name == '' || this.state.name == undefined ||
-            this.state.department == 'Select department' || this.state.departmentID == undefined ||
-            this.state.phone == '' || this.state.phone == undefined ||
-            this.state.address == '' || this.state.address == undefined ||
-            this.state.description == '' || this.state.description == undefined) {
+		console.log(this.state)
+        if (this.state.projectID == undefined ||
+            this.state.projectName == undefined ||
+            this.state.employeeID == undefined ||
+            this.state.employeeName == undefined ||
+            this.state.departmentID == undefined ||
+            this.state.departmentName == undefined ||
+            this.state.productID == undefined ||
+            this.state.productName == undefined ||
+
+            this.state.invoiceID == undefined ||
+            this.state.date == undefined ||
+            this.state.quantity == undefined ||
+            this.state.description == undefined ||
+			
+			this.isNumber(this.state.quantity) != true) {
             this.setState({
                 invalidValue: true
             });
@@ -193,13 +208,22 @@ class InputAdd extends Component {
             method: 'post',
             body: JSON.stringify({
                 id: + new Date,
-                name: this.state.name,
-				phone: this.state.phone,
-				address: this.state.address,
-				department: this.state.department,
+				invoiceID: this.state.invoiceID,
+				date: this.state.date,
+				price: this.state.price,				
+				quantity: this.state.quantity,				
+				description: this.state.description,
+				total: this.state.total,
+				
+				projectID: this.state.projectID,
+				project: this.state.projectName,
+				employeeID: this.state.employeeID,
+				employee: this.state.employeeName,
 				departmentID: this.state.departmentID,
-				sum: 0,
-                description: this.state.description,
+				department: this.state.departmentName,
+				productID: this.state.productID,
+				product: this.state.productName,
+
 				authorization: appConfig.access_token
             }),
             headers: {
@@ -293,7 +317,7 @@ class InputAdd extends Component {
 						<select className="input"
 							onChange={(event) => {
 								this.setState({
-									project: event.target.children[event.target.selectedIndex].label,
+									projectName: event.target.children[event.target.selectedIndex].label,
 									projectID: event.target.value,
 									invalidValue: false
 								})
@@ -307,7 +331,7 @@ class InputAdd extends Component {
 						<select className="input"
 							onChange={(event) => {
 								this.setState({
-									department: event.target.children[event.target.selectedIndex].label,
+									departmentName: event.target.children[event.target.selectedIndex].label,
 									departmentID: event.target.value,
 									invalidValue: false
 								})
@@ -321,7 +345,7 @@ class InputAdd extends Component {
 						<select className="input"
 							onChange={(event) => {
 								this.setState({
-									employee: event.target.children[event.target.selectedIndex].label,
+									employeeName: event.target.children[event.target.selectedIndex].label,
 									employeeID: event.target.value,
 									invalidValue: false
 								})
@@ -345,8 +369,8 @@ class InputAdd extends Component {
 								}
 								
 								this.setState({
-									good: event.target.children[event.target.selectedIndex].label,
-									goodID: event.target.value,
+									productName: event.target.children[event.target.selectedIndex].label,
+									productID: event.target.value,
 									price: price,
 									invalidValue: false
 								})
