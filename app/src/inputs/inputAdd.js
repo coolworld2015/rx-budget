@@ -364,7 +364,7 @@ class InputAdd extends Component {
 								let arr = [].concat(this.state.resources);
  								let resource = arr.filter((el) => el.id == event.target.value);
 								let price, total;
-								console.log(resource)
+
 								if (resource[0] === undefined) {
 									price = '0.00',
 									total = '0.00'

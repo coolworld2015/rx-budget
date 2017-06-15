@@ -24,7 +24,6 @@ class InputDetails extends Component {
 			total: appConfig.inputs.item.total,
 			description: appConfig.inputs.item.description
 		}
-		
     }
 	
 	componentDidMount() {

@@ -30,7 +30,7 @@ class InputDelete extends Component {
         this.setState({
             showProgress: true
         });
-console.log(this.state.total)
+
         fetch(appConfig.url + 'api/inputs/delete', {
             method: 'post',
             body: JSON.stringify({
