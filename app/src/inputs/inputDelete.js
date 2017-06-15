@@ -23,6 +23,7 @@ class InputDelete extends Component {
 			quantity: appConfig.inputs.item.quantity,
 			description: appConfig.inputs.item.description
 		}
+		console.log(this.state)
     }
 	
     deleteItem() {
@@ -59,6 +60,10 @@ class InputDelete extends Component {
             .then((responseData)=> {
 				if (responseData.text) {
 					appConfig.inputs.refresh = true;
+					appConfig.assets.refresh = true;
+					appConfig.projects.refresh = true;
+					appConfig.departments.refresh = true;
+					appConfig.employees.refresh = true;
 					hashHistory.push("/inputs");
 				} else {
 					this.setState({

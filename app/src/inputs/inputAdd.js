@@ -178,7 +178,6 @@ class InputAdd extends Component {
 	}
 	
     addItem() {
-		console.log(this.state)
         if (this.state.projectID == undefined ||
             this.state.projectName == undefined ||
             this.state.employeeID == undefined ||
@@ -235,6 +234,10 @@ class InputAdd extends Component {
             .then((responseData)=> {
 				if (responseData.id) {
 					appConfig.inputs.refresh = true;
+					appConfig.assets.refresh = true;
+					appConfig.projects.refresh = true;
+					appConfig.departments.refresh = true;
+					appConfig.employees.refresh = true;
 					hashHistory.push("/inputs");
 				} else {
 					this.setState({
@@ -360,18 +363,21 @@ class InputAdd extends Component {
 							onChange={(event) => {
 								let arr = [].concat(this.state.resources);
  								let resource = arr.filter((el) => el.id == event.target.value);
-								let price;
+								let price, total;
 								console.log(resource)
 								if (resource[0] === undefined) {
-									price = '0.00'
+									price = '0.00',
+									total = '0.00'
 								} else {
 									price = resource[0].price;
+									total = ((+resource[0].price)*(+this.state.quantity)).toFixed(2).toString();
 								}
 								
 								this.setState({
 									productName: event.target.children[event.target.selectedIndex].label,
 									productID: event.target.value,
 									price: price,
+									total: total,
 									invalidValue: false
 								})
 							}}>
@@ -394,6 +400,7 @@ class InputAdd extends Component {
 							onChange={(event) => {
 								this.setState({
 									quantity: event.target.value,
+									total: ((+this.state.price)*(+event.target.value)).toFixed(2).toString(),	
 									invalidValue: false
 								})
 							}}
