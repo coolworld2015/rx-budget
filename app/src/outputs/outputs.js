@@ -169,7 +169,7 @@ class Outputs extends Component {
             <div>
 				<div className="top">
 					<div className="header" onClick={this.clearSearchQuery.bind(this)}>
-						Inputs ({this.state.resultsCount})
+						Outputs ({this.state.resultsCount})
 					</div>
 					
 					<div>
