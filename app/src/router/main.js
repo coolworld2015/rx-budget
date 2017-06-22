@@ -61,29 +61,32 @@ class Main extends Component {
     render() {
 		return (
 			<div>
-				<center>
-				<div className="header">
-					RX-Budget
+				<div className="top">
+					<div className="header">
+						RX-Budget
+					</div>
 				</div>
+				
+				<div className="middle-menu">
+					<hr/>
+					<div onClick={this.goAssets.bind(this)} className="items-menu">Assets</div><hr/>
+					<div onClick={this.goReports.bind(this)} className="items-menu">Reports</div><hr/>
+					<div onClick={this.goInputs.bind(this)} className="items-menu">Inputs</div><hr/>
+					<div onClick={this.goOutputs.bind(this)} className="items-menu">Outputs</div><hr/>
+					<div onClick={this.goResources.bind(this)} className="items-menu">Resources</div><hr/>
+					<div onClick={this.goProjects.bind(this)} className="items-menu">Projects</div><hr/>
+					<div onClick={this.goDepartments.bind(this)} className="items-menu">Departments</div><hr/>
+					<div onClick={this.goEmployees.bind(this)} className="items-menu">Employees</div><hr/>
+					<div onClick={this.goUsers.bind(this)} className="items-menu">Users</div><hr/>
+					<div onClick={this.goAudit.bind(this)} className="items-menu">Audit</div><hr/>
 
-				<div>
-					<hr/><br/>
-					<div onClick={this.goAssets.bind(this)} className="items">Assets</div><br/>
-					<div onClick={this.goReports.bind(this)} className="items">Reports</div><br/>
-					<div onClick={this.goInputs.bind(this)} className="items">Inputs</div><br/>
-					<div onClick={this.goOutputs.bind(this)} className="items">Outputs</div><br/>
-					<div onClick={this.goResources.bind(this)} className="items">Resources</div><br/>
-					<div onClick={this.goProjects.bind(this)} className="items">Projects</div><br/>
-					<div onClick={this.goDepartments.bind(this)} className="items">Departments</div><br/>
-					<div onClick={this.goEmployees.bind(this)} className="items">Employees</div><br/>
-					<div onClick={this.goUsers.bind(this)} className="items">Users</div><br/>
-					<div onClick={this.goAudit.bind(this)} className="items">Audit</div><br/>
-
-					<div onClick={this.onLogOut.bind(this)} className="items">Logout</div>
-					<br/><hr/>
+					<div onClick={this.onLogOut.bind(this)} className="items-menu">Logout</div> 
 				</div>
- 
-				</center>
+				
+				<div className="bottom-menu">
+					<hr/>
+				</div> 
+				
 			</div>
 		)
     }

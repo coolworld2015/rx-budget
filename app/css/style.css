@@ -24,9 +24,24 @@ body {
 	height: 600px;
 }
 
+.middle-menu {
+	text-align: center;
+    margin-top: 50px;
+	margin-bottom: 30px;
+	overflow-y: scroll;
+	height: 600px;
+}
+
 .bottom {
 	position: fixed;
 	bottom: 0px;
+	width: 100%;
+	background-color: black;
+}
+
+.bottom-menu {
+	position: fixed;
+	bottom: 10px;
 	width: 100%;
 	background-color: black;
 }
@@ -277,6 +292,16 @@ button:hover {
     font-weight: bold;
     border: black;
     cursor: pointer;
+}
+
+.items-menu {
+    color: white;
+    background-color: black;
+    font-size: 24px;
+    font-weight: bold;
+    border: black;
+    cursor: pointer;
+	margin: 15px;
 }
 
 .logo {
