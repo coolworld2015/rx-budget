@@ -15,7 +15,7 @@ class Main extends Component {
 	}
 	
 	goReports() {
-		hashHistory.push("/reports");
+		hashHistory.push("/search");
 	}
 	
 	goResources() {

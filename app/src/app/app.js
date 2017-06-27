@@ -59,6 +59,11 @@ class App extends Component {
                 refresh: true,
 				items: [],
 				item: {}
+            },
+			search: {
+                refresh: true,
+				items: [],
+				item: {}
             }
         };
     }

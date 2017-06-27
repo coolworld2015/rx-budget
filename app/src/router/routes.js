@@ -45,11 +45,21 @@ import ResourceAdd from '../resources/resourceAdd';
 import ResourceDetails from '../resources/resourceDetails';
 import ResourceDelete from '../resources/resourceDelete';
 
+import Search from '../search/search';
+import SearchResults from '../search/searchResults';
+import SearchDetails from '../search/searchDetails';
+
 export default (
     <Route path="/" component={Root}>
 	
         <IndexRoute component={Main}/>
 		<Route path="main" component={Main}/>
+		
+		<Route path="search" component={Search}/>
+		<Route path="search-results">
+            <Route path=":name/:type" component={SearchResults}/>
+        </Route>
+		<Route path="search-details" component={SearchDetails}/>
 		
 		<Route path="audit" component={Audit}/>
 		<Route path="audit-details" component={AuditDetails}/>
