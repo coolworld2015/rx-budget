@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {hashHistory} from 'react-router';
+import * as bs from 'react-bootstrap';
 
 class Test extends Component {
     constructor(props) {
@@ -15,32 +16,26 @@ class Test extends Component {
 	}
 	
     render() {
-        return (
-
-			
+        return (			
             <div style={{
 				backgroundColor: 'white',
-				height: 800 
-			}}>
-			
+				height: 8000,
+				textAlign: 'center'
+			}}>			
  
-				<div>
-					<center>
+				<div style={{
+					marginBottom: 200
+				}}>
 					Test 				
-					<br/>
-					<br/>
-					<br/>
-					<br/>
-					<br/>
-
-					<button className="button"
+				</div>	
+				
+				<div>	
+					<bs.Button bsStyle="primary"
 						onClick={this.goToMain.bind(this)}>
 						Back
-					</button>
-					</center>
+					</bs.Button>
 				</div>			
  
-
             </div>
         )
     }
