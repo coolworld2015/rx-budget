@@ -69,6 +69,8 @@ class Main extends Component {
 				
 				<div className="middle-menu">
 					<hr/>
+					<div onClick={this.goTest.bind(this)} className="items">Test</div><hr/>
+					
 					<div onClick={this.goAssets.bind(this)} className="items-menu">Assets</div><hr/>
 					<div onClick={this.goReports.bind(this)} className="items-menu">Reports</div><hr/>
 					<div onClick={this.goInputs.bind(this)} className="items-menu">Inputs</div><hr/>
