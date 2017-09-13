@@ -8,7 +8,7 @@ class App extends Component {
 
         this.state = {
             showProgress: false,
-            isLoggedIn: true
+            isLoggedIn: false
         }
 		
 		window.appConfig = {

@@ -130,7 +130,7 @@ class Search extends Component {
     }
 	
 	goSearch() {
-		if (this.state.name == '' || this.state.name == undefined) {
+		if (this.state.projectName == '' || this.state.projectName == undefined) {
 			this.setState({
 				invalidValue: true
 			});
@@ -141,7 +141,7 @@ class Search extends Component {
             showProgress: true
         });
 		
-		hashHistory.push("/search-results/" + this.state.name + "/" + this.state.type);
+		hashHistory.push("/search-results/" + this.state.projectName + "/" + this.state.type);
 	}
 	
 	goToMain() {

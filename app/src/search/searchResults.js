@@ -11,6 +11,7 @@ class SearchResults extends Component {
 			searchQueryHttp: this.props.routeParams.name,
 			searchType: this.props.routeParams.type,
             items: appConfig.search.items.slice(0, 20),
+            items: [],
 			filteredItems: appConfig.search.items,
 			resultsCount: 0,
             recordsCount: 20,
@@ -21,14 +22,43 @@ class SearchResults extends Component {
 	componentDidMount() {		
 		this.setState({
 			showProgress: false,
-            resultsCount: appConfig.search.items.length
+ 
+        });
+		this.getItems();
+ 
+	}
+	
+    getItems() {
+		this.setState({
+            showProgress: true
         });
 		
-		if (appConfig.search.refresh) {
-            appConfig.search.refresh = false;
-			this.findByPhone();
-		}
-	}
+        fetch(appConfig.url + 'api/inputs/get', {			
+            method: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+				'Authorization': appConfig.access_token
+            }
+        })
+            .then((response)=> response.json())
+            .then((responseData)=> {
+				appConfig.inputs.items = responseData.sort(this.sort);
+                this.setState({
+                    items: (responseData.sort(this.sort)).slice(0, 20),
+                    filteredItems: responseData.sort(this.sort),
+                    resultsCount: appConfig.inputs.items.length,
+					showProgress: false
+                });
+            })
+            .catch((error)=> {
+				console.log(error)
+                this.setState({
+                    serverError: true,
+					showProgress: false
+                });
+            })
+    }
 	
 	handleScroll() {
 		var position = document.querySelector('.middle').scrollTop;
@@ -111,7 +141,7 @@ class SearchResults extends Component {
     }
 	
 	sort(a, b) {
-		var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+		var nameA = a.invoiceID.toLowerCase(), nameB = b.invoiceID.toLowerCase();
 		if (nameA < nameB) {
 			return -1
 		}
@@ -184,7 +214,15 @@ class SearchResults extends Component {
 				
 				<div onScroll={this.handleScroll.bind(this)} 
 					className="middle">
-					{this.makeItems()}
+					<div>
+						<div style={{float: 'left', width: '50%'}}>
+							{this.makeItems()}
+						</div>					
+						
+						<div style={{float: 'right', width: '50%'}}>
+							{this.makeItems()}
+						</div>
+					</div>
 				</div>
 									
 				<div className="bottom">
